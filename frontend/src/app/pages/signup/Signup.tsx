@@ -1,7 +1,7 @@
 import React from "react";
 import { Button } from "antd";
 
-const Signup = (): JSX.Element => {
+const SignUp = (): JSX.Element => {
   return (
     <div>
       <h1>SIGN UP</h1>
@@ -11,4 +11,4 @@ const Signup = (): JSX.Element => {
   );
 };
 
-export default Signup;
+export default SignUp;
