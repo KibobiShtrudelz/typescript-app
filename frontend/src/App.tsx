@@ -5,7 +5,7 @@ import { Layout } from "antd";
 import Header from "./app/components/header/Header";
 import Content from "./app/components/content/Content";
 import Footer from "./app/components/footer/Footer";
-import Sider from "./app/components/signup/Sider";
+// import Sider from "./app/components/sider/Sider";
 import SignUp from "./app/pages/signUp/SignUp";
 
 import "./App.css";
