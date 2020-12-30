@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { PageHeader, Button } from "antd";
 // import { UserOutlined, LoginOutlined } from "@ant-design/icons";
 import styled from "styled-components";
-import SignUp from "../../pages/signUp/SignUp";
+import SignUp from "../../pages/register/SignUp";
 
 const Header = () => {
   const [showSignUpModal, setShowSignUpModal] = useState<boolean>(false);
