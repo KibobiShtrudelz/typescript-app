@@ -18,32 +18,16 @@ const { Option } = Select;
 // const AutoCompleteOption = AutoComplete.Option;
 const residences = [
   {
-    value: "zhejiang",
-    label: "Zhejiang",
+    value: "bulgaria",
+    label: "България",
     children: [
       {
-        value: "hangzhou",
-        label: "Hangzhou",
+        value: "sofia",
+        label: "София",
         children: [
           {
-            value: "xihu",
-            label: "West Lake",
-          },
-        ],
-      },
-    ],
-  },
-  {
-    value: "jiangsu",
-    label: "Jiangsu",
-    children: [
-      {
-        value: "nanjing",
-        label: "Nanjing",
-        children: [
-          {
-            value: "zhonghuamen",
-            label: "Zhong Hua Men",
+            value: "hristoSmirnenski",
+            label: "жк. Христо Смирненски",
           },
         ],
       },
@@ -82,7 +66,7 @@ const tailFormItemLayout = {
 };
 
 const SignUp = () => {
-  const [modal2Visible, setModal2Visible] = useState<boolean>(false);
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [form] = Form.useForm();
 
   const onFinish = (values: any) => {
@@ -93,66 +77,43 @@ const SignUp = () => {
     <Form.Item name="prefix" noStyle>
       <Select
         style={{
-          width: 70,
+          width: 75,
         }}
       >
-        <Option value="86">+86</Option>
-        <Option value="87">+87</Option>
+        <Option value="359">+359</Option>
       </Select>
     </Form.Item>
   );
-  // const [autoCompleteResult, setAutoCompleteResult] = useState([]);
-
-  // const onWebsiteChange = (value: any) => {
-  //   if (!value) {
-  //     setAutoCompleteResult([]);
-  //   } else {
-  //     setAutoCompleteResult(
-  //       [".com", ".org", ".net"].map(domain => `${value}${domain}`)
-  //     );
-  //   }
-  // };
-
-  // const websiteOptions = autoCompleteResult.map(website => ({
-  //   label: website,
-  //   value: website,
-  // }));
 
   return (
     <div>
-      <Button type="primary" onClick={() => setModal2Visible(true)}>
-        Vertically centered modal dialog
+      <Button type="primary" onClick={() => setModalVisible(true)}>
+        Open Sign Up
       </Button>
 
-      <Modal
-        title="Vertically centered modal dialog"
-        centered
-        visible={modal2Visible}
-        onOk={() => setModal2Visible(false)}
-        onCancel={() => setModal2Visible(false)}
-      >
+      <Modal title="Създай своят профил" centered visible={modalVisible}>
         <Form
           {...formItemLayout}
           form={form}
           name="register"
           onFinish={onFinish}
           initialValues={{
-            residence: ["zhejiang", "hangzhou", "xihu"],
-            prefix: "86",
+            residence: ["България", "София", "жк. Христо Смирненски"],
+            prefix: "359",
           }}
           scrollToFirstError
         >
           <Form.Item
             name="email"
-            label="E-mail"
+            label="Имейл"
             rules={[
               {
                 type: "email",
-                message: "The input is not valid E-mail!",
+                message: "Моля, въведете валиден имейл!",
               },
               {
                 required: true,
-                message: "Please input your E-mail!",
+                message: "Имейла е задължителен!",
               },
             ]}
           >
@@ -161,11 +122,11 @@ const SignUp = () => {
 
           <Form.Item
             name="password"
-            label="Password"
+            label="Парола"
             rules={[
               {
                 required: true,
-                message: "Please input your password!",
+                message: "Паролата е задължителна!",
               },
             ]}
             hasFeedback
@@ -175,13 +136,13 @@ const SignUp = () => {
 
           <Form.Item
             name="confirm"
-            label="Confirm Password"
+            label="Потвърдете паролата"
             dependencies={["password"]}
             hasFeedback
             rules={[
               {
                 required: true,
-                message: "Please confirm your password!",
+                message: "Моля, потвърдете паролата ви!",
               },
               ({ getFieldValue }) => ({
                 validator(rule, value) {
@@ -189,9 +150,7 @@ const SignUp = () => {
                     return Promise.resolve();
                   }
 
-                  return Promise.reject(
-                    "The two passwords that you entered do not match!"
-                  );
+                  return Promise.reject("Паролите не съвпадат!");
                 },
               }),
             ]}
@@ -203,8 +162,8 @@ const SignUp = () => {
             name="nickname"
             label={
               <span>
-                Nickname&nbsp;
-                <Tooltip title="What do you want others to call you?">
+                Псевдоним&nbsp;
+                <Tooltip title="Как желаете да ви наричат другите?">
                   <QuestionCircleOutlined />
                 </Tooltip>
               </span>
@@ -212,7 +171,7 @@ const SignUp = () => {
             rules={[
               {
                 required: true,
-                message: "Please input your nickname!",
+                message: "Моля, въведете вашият псевдоним!",
                 whitespace: true,
               },
             ]}
@@ -222,12 +181,12 @@ const SignUp = () => {
 
           <Form.Item
             name="residence"
-            label="Habitual Residence"
+            label="Местожителство"
             rules={[
               {
                 type: "array",
                 required: true,
-                message: "Please select your habitual residence!",
+                message: "Моля, изберете местожителство!",
               },
             ]}
           >
@@ -236,11 +195,11 @@ const SignUp = () => {
 
           <Form.Item
             name="phone"
-            label="Phone Number"
+            label="Мобилен телефон"
             rules={[
               {
                 required: true,
-                message: "Please input your phone number!",
+                message: "Моля, въведете вашият мобилен телефон!",
               },
             ]}
           >
@@ -253,50 +212,6 @@ const SignUp = () => {
           </Form.Item>
 
           <Form.Item
-            name="website"
-            label="Website"
-            rules={[
-              {
-                required: true,
-                message: "Please input website!",
-              },
-            ]}
-          >
-            {/* <AutoComplete
-          options={websiteOptions}
-          onChange={onWebsiteChange}
-          placeholder="website"
-        >
-          <Input />
-        </AutoComplete> */}
-          </Form.Item>
-
-          <Form.Item
-            label="Captcha"
-            extra="We must make sure that your are a human."
-          >
-            <Row gutter={8}>
-              <Col span={12}>
-                <Form.Item
-                  name="captcha"
-                  noStyle
-                  rules={[
-                    {
-                      required: true,
-                      message: "Please input the captcha you got!",
-                    },
-                  ]}
-                >
-                  <Input />
-                </Form.Item>
-              </Col>
-              <Col span={12}>
-                <Button>Get captcha</Button>
-              </Col>
-            </Row>
-          </Form.Item>
-
-          <Form.Item
             name="agreement"
             valuePropName="checked"
             rules={[
@@ -304,7 +219,7 @@ const SignUp = () => {
                 validator: (_, value) =>
                   value
                     ? Promise.resolve()
-                    : Promise.reject("Should accept agreement"),
+                    : Promise.reject("Трябва да приемете споразумението"),
               },
             ]}
             {...tailFormItemLayout}
@@ -313,9 +228,10 @@ const SignUp = () => {
               I have read the <a href="">agreement</a>
             </Checkbox>
           </Form.Item>
+
           <Form.Item {...tailFormItemLayout}>
             <Button type="primary" htmlType="submit">
-              Register
+              Регистрирай се
             </Button>
           </Form.Item>
         </Form>
