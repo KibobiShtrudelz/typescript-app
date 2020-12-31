@@ -1,39 +1,40 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import {
   Modal,
   Form,
   Input,
-  Tooltip,
-  Cascader,
-  Select,
-  Row,
-  Col,
+  // Tooltip,
+  // Cascader,
+  // Select,
+  // Row,
+  // Col,
   Checkbox,
   Button,
-  AutoComplete,
+  // AutoComplete,
 } from "antd";
-import { QuestionCircleOutlined } from "@ant-design/icons";
+// import { QuestionCircleOutlined } from "@ant-design/icons";
 
-const { Option } = Select;
+// const { Option } = Select;
 // const AutoCompleteOption = AutoComplete.Option;
-const residences = [
-  {
-    value: "bulgaria",
-    label: "България",
-    children: [
-      {
-        value: "sofia",
-        label: "София",
-        children: [
-          {
-            value: "hristoSmirnenski",
-            label: "жк. Христо Смирненски",
-          },
-        ],
-      },
-    ],
-  },
-];
+// const residences = [
+//   {
+//     value: "bulgaria",
+//     label: "България",
+//     children: [
+//       {
+//         value: "sofia",
+//         label: "София",
+//         children: [
+//           {
+//             value: "hristoSmirnenski",
+//             label: "жк. Христо Смирненски",
+//           },
+//         ],
+//       },
+//     ],
+//   },
+// ];
 const formItemLayout = {
   labelCol: {
     xs: {
@@ -73,17 +74,17 @@ const SignUp = () => {
     console.log("Received values of form: ", values);
   };
 
-  const prefixSelector = (
-    <Form.Item name="prefix" noStyle>
-      <Select
-        style={{
-          width: 75,
-        }}
-      >
-        <Option value="359">+359</Option>
-      </Select>
-    </Form.Item>
-  );
+  // const prefixSelector = (
+  //   <Form.Item name="prefix" noStyle>
+  //     <Select
+  //       style={{
+  //         width: 75,
+  //       }}
+  //     >
+  //       <Option value="359">+359</Option>
+  //     </Select>
+  //   </Form.Item>
+  // );
 
   return (
     <div>
@@ -91,7 +92,12 @@ const SignUp = () => {
         Open Sign Up
       </Button>
 
-      <Modal title="Създай своят профил" centered visible={modalVisible}>
+      <Modal
+        title={<span>🖖</span>}
+        centered
+        visible={modalVisible}
+        footer={null}
+      >
         <Form
           {...formItemLayout}
           form={form}
@@ -158,7 +164,7 @@ const SignUp = () => {
             <Input.Password />
           </Form.Item>
 
-          <Form.Item
+          {/* <Form.Item
             name="nickname"
             label={
               <span>
@@ -177,9 +183,9 @@ const SignUp = () => {
             ]}
           >
             <Input />
-          </Form.Item>
+          </Form.Item> */}
 
-          <Form.Item
+          {/* <Form.Item
             name="residence"
             label="Местожителство"
             rules={[
@@ -191,9 +197,9 @@ const SignUp = () => {
             ]}
           >
             <Cascader options={residences} />
-          </Form.Item>
+          </Form.Item> */}
 
-          <Form.Item
+          {/* <Form.Item
             name="phone"
             label="Мобилен телефон"
             rules={[
@@ -209,7 +215,7 @@ const SignUp = () => {
                 width: "100%",
               }}
             />
-          </Form.Item>
+          </Form.Item> */}
 
           <Form.Item
             name="agreement"
@@ -225,7 +231,7 @@ const SignUp = () => {
             {...tailFormItemLayout}
           >
             <Checkbox>
-              I have read the <a href="">agreement</a>
+              Прочетох <Link to="#">условията</Link> за ползване на сайта
             </Checkbox>
           </Form.Item>
 

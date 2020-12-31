@@ -1,6 +1,9 @@
-import { Layout, Avatar } from "antd";
+import {
+  Layout,
+  // Avatar
+} from "antd";
 import React from "react";
-import { UserOutlined, LoginOutlined } from "@ant-design/icons";
+// import { UserOutlined, LoginOutlined } from "@ant-design/icons";
 
 const Header = () => {
   const { Header } = Layout;
