@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React from "react";
 import {
   Modal,
   Form,
@@ -11,6 +10,7 @@ import {
   // Col,
   Checkbox,
   Button,
+  // Select,
   // AutoComplete,
 } from "antd";
 // import { QuestionCircleOutlined } from "@ant-design/icons";
@@ -66,13 +66,18 @@ const tailFormItemLayout = {
   },
 };
 
-const SignUp = () => {
-  const [modalVisible, setModalVisible] = useState<boolean>(false);
+const SignUp = (props: any): JSX.Element => {
+  const { showSignUpModal, closeSignUpModal } = props;
+
   const [form] = Form.useForm();
 
   const onFinish = (values: any) => {
     console.log("Received values of form: ", values);
   };
+
+  console.log(process.env.CMS_URL);
+
+  // const { Option } = Select;
 
   // const prefixSelector = (
   //   <Form.Item name="prefix" noStyle>
@@ -88,15 +93,12 @@ const SignUp = () => {
 
   return (
     <div>
-      <Button type="primary" onClick={() => setModalVisible(true)}>
-        Open Sign Up
-      </Button>
-
       <Modal
-        title={<span>🖖</span>}
+        title={<span style={{ textAlign: "center" }}>🖖</span>}
         centered
-        visible={modalVisible}
+        visible={showSignUpModal}
         footer={null}
+        onCancel={() => closeSignUpModal()}
       >
         <Form
           {...formItemLayout}
@@ -231,7 +233,9 @@ const SignUp = () => {
             {...tailFormItemLayout}
           >
             <Checkbox>
-              Прочетох <Link to="#">условията</Link> за ползване на сайта
+              Прочетох{" "}
+              <a href="http://localhost:3000/terms-and-conditions">условията</a>{" "}
+              за ползване на сайта
             </Checkbox>
           </Form.Item>
 
