@@ -17,25 +17,21 @@ type State = {
 const initialState: User = {
   jwt: "",
   email: "",
+  username: "",
 };
 
 const userSignUp: TThunk<User, User> = createAsyncThunk(
   "user/signUp",
-  async (userData: User) => {
-    const res = await createUser(userData);
-
-    if (res.errorMessage) {
-      return res as { errorMessage: string };
-    } else {
-      return res;
-    }
-  }
+  async (userData: User) => await createUser(userData)
 );
 
+// TODO: направи default State type, включващ loading, loaded и error props
 const reducer = createReducer(initialState, {
+  [userSignUp.pending.type]: () => {},
   [userSignUp.fulfilled.type]: (state, action: PayloadAction<User>) => {
     state = action.payload;
   },
+  [userSignUp.rejected.type]: () => {},
 });
 
 const actions = {
@@ -48,4 +44,5 @@ const userStore = {
 };
 
 export default userStore;
+
 export type { State };

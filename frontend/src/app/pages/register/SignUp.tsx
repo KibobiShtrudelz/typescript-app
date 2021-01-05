@@ -1,40 +1,15 @@
 import React from "react";
+import { Modal, Form, Input, Checkbox, Button } from "antd";
 import {
-  Modal,
-  Form,
-  Input,
-  // Tooltip,
-  // Cascader,
-  // Select,
-  // Row,
-  // Col,
-  Checkbox,
-  Button,
-  // Select,
-  // AutoComplete,
-} from "antd";
-// import { QuestionCircleOutlined } from "@ant-design/icons";
+  emailRules,
+  passwordRules,
+  confirmPasswordRules,
+  agreementRules,
+} from "./formRules";
+import { PropsTypes } from "./types";
+import { useAppDispatch } from "../../redux/store";
+import userStore from "../../redux/userStore";
 
-// const { Option } = Select;
-// const AutoCompleteOption = AutoComplete.Option;
-// const residences = [
-//   {
-//     value: "bulgaria",
-//     label: "България",
-//     children: [
-//       {
-//         value: "sofia",
-//         label: "София",
-//         children: [
-//           {
-//             value: "hristoSmirnenski",
-//             label: "жк. Христо Смирненски",
-//           },
-//         ],
-//       },
-//     ],
-//   },
-// ];
 const formItemLayout = {
   labelCol: {
     xs: {
@@ -53,6 +28,7 @@ const formItemLayout = {
     },
   },
 };
+
 const tailFormItemLayout = {
   wrapperCol: {
     xs: {
@@ -66,30 +42,26 @@ const tailFormItemLayout = {
   },
 };
 
-const SignUp = (props: any): JSX.Element => {
-  const { showSignUpModal, closeSignUpModal } = props;
-
+const SignUp = ({
+  showSignUpModal,
+  closeSignUpModal,
+}: PropsTypes): JSX.Element => {
   const [form] = Form.useForm();
+
+  const dispatch = useAppDispatch();
+
+  console.log("CMS URL:", process.env.REACT_APP_CMS_BASE_URL);
 
   const onFinish = (values: any) => {
     console.log("Received values of form: ", values);
+    dispatch(
+      userStore.actions.userSignUp({
+        email: values.email,
+        username: values.email,
+        password: values.password,
+      })
+    );
   };
-
-  console.log(process.env.CMS_URL);
-
-  // const { Option } = Select;
-
-  // const prefixSelector = (
-  //   <Form.Item name="prefix" noStyle>
-  //     <Select
-  //       style={{
-  //         width: 75,
-  //       }}
-  //     >
-  //       <Option value="359">+359</Option>
-  //     </Select>
-  //   </Form.Item>
-  // );
 
   return (
     <div>
@@ -105,38 +77,16 @@ const SignUp = (props: any): JSX.Element => {
           form={form}
           name="register"
           onFinish={onFinish}
-          initialValues={{
-            residence: ["България", "София", "жк. Христо Смирненски"],
-            prefix: "359",
-          }}
           scrollToFirstError
         >
-          <Form.Item
-            name="email"
-            label="Имейл"
-            rules={[
-              {
-                type: "email",
-                message: "Моля, въведете валиден имейл!",
-              },
-              {
-                required: true,
-                message: "Имейла е задължителен!",
-              },
-            ]}
-          >
+          <Form.Item name="email" label="Имейл" rules={emailRules}>
             <Input />
           </Form.Item>
 
           <Form.Item
             name="password"
             label="Парола"
-            rules={[
-              {
-                required: true,
-                message: "Паролата е задължителна!",
-              },
-            ]}
+            rules={passwordRules}
             hasFeedback
           >
             <Input.Password />
@@ -147,89 +97,15 @@ const SignUp = (props: any): JSX.Element => {
             label="Потвърдете паролата"
             dependencies={["password"]}
             hasFeedback
-            rules={[
-              {
-                required: true,
-                message: "Моля, потвърдете паролата ви!",
-              },
-              ({ getFieldValue }) => ({
-                validator(rule, value) {
-                  if (!value || getFieldValue("password") === value) {
-                    return Promise.resolve();
-                  }
-
-                  return Promise.reject("Паролите не съвпадат!");
-                },
-              }),
-            ]}
+            rules={confirmPasswordRules}
           >
             <Input.Password />
           </Form.Item>
 
-          {/* <Form.Item
-            name="nickname"
-            label={
-              <span>
-                Псевдоним&nbsp;
-                <Tooltip title="Как желаете да ви наричат другите?">
-                  <QuestionCircleOutlined />
-                </Tooltip>
-              </span>
-            }
-            rules={[
-              {
-                required: true,
-                message: "Моля, въведете вашият псевдоним!",
-                whitespace: true,
-              },
-            ]}
-          >
-            <Input />
-          </Form.Item> */}
-
-          {/* <Form.Item
-            name="residence"
-            label="Местожителство"
-            rules={[
-              {
-                type: "array",
-                required: true,
-                message: "Моля, изберете местожителство!",
-              },
-            ]}
-          >
-            <Cascader options={residences} />
-          </Form.Item> */}
-
-          {/* <Form.Item
-            name="phone"
-            label="Мобилен телефон"
-            rules={[
-              {
-                required: true,
-                message: "Моля, въведете вашият мобилен телефон!",
-              },
-            ]}
-          >
-            <Input
-              addonBefore={prefixSelector}
-              style={{
-                width: "100%",
-              }}
-            />
-          </Form.Item> */}
-
           <Form.Item
             name="agreement"
             valuePropName="checked"
-            rules={[
-              {
-                validator: (_, value) =>
-                  value
-                    ? Promise.resolve()
-                    : Promise.reject("Трябва да приемете споразумението"),
-              },
-            ]}
+            rules={agreementRules}
             {...tailFormItemLayout}
           >
             <Checkbox>
