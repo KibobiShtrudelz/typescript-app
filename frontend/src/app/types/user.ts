@@ -1,8 +1,9 @@
 type User = {
   id?: number;
   jwt?: string;
-  email?: string;
-  username?: string;
+  email: string;
+  username: string;
+  password?: string;
   errorMessage?: string;
 };
 
