@@ -1,11 +1,25 @@
-import { Layout, Avatar } from "antd";
 import React from "react";
-import { UserOutlined, LoginOutlined } from "@ant-design/icons";
+import styled from "styled-components";
 
 const Footer = () => {
-  const { Footer } = Layout;
-
-  return <Footer />;
+  return (
+    <Wrapper>
+      <h1>Footer</h1>
+    </Wrapper>
+  );
 };
 
 export default Footer;
+
+const Wrapper = styled.footer`
+  grid-column: 1 / 2;
+  grid-row: 3 / 4;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 100%;
+  height: 50px;
+  background-color: #d1d1d1;
+`;
