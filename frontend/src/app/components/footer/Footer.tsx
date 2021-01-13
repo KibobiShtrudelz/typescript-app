@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 
 const Footer = () => {
@@ -12,14 +11,18 @@ const Footer = () => {
 export default Footer;
 
 const Wrapper = styled.footer`
-  grid-column: 1 / 2;
-  grid-row: 3 / 4;
+  grid-column: 1 / 13;
+  grid-row: 12 / 13;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  width: 100%;
-  height: 50px;
-  background-color: #d1d1d1;
+  height: 70px;
+  color: #fff;
+  background-color: #303030;
+
+  h1 {
+    color: inherit;
+  }
 `;

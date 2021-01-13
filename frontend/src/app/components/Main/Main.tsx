@@ -1,27 +1,23 @@
 import styled from "styled-components";
 
-const Header = () => {
+const Main = () => {
   return (
     <Wrapper>
-      <h1>Header</h1>
+      <h1>Main</h1>
     </Wrapper>
   );
 };
 
-export default Header;
+export default Main;
 
-const Wrapper = styled.header`
-  background-color: #d1d1d1;
-
-  grid-column: 1 / 13;
-  grid-row: 1 / 2;
+const Wrapper = styled.main`
+  grid-column: 2 / 12;
+  grid-row: 2 / 12;
 
   display: flex;
   align-items: center;
   justify-content: center;
 
-  width: 100%;
-  height: 70px;
   color: #fff;
   background-color: #303030;
 

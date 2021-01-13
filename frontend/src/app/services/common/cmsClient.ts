@@ -1,7 +1,7 @@
-import Axios, { AxiosInstance } from "axios";
+import axios, { AxiosInstance } from "axios";
 
 const baseURL = process.env.REACT_APP_CMS_BASE_URL;
 
-const createCmsClient = (): AxiosInstance => Axios.create({ baseURL });
+const createCmsClient = (): AxiosInstance => axios.create({ baseURL });
 
 export default createCmsClient;
