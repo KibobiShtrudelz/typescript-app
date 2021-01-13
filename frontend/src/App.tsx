@@ -13,11 +13,11 @@ const App = () => {
     <MainGrid>
       <Header />
 
-      <Sider column="1 / 2" row="2 / 12" />
+      <Sider column="1 / 2" row="2 / 12" borderRadius="0 10px 10px 0" />
 
       <Main />
 
-      <Sider column="12 / 13" row="2 / 12" />
+      <Sider column="12 / 13" row="2 / 12" borderRadius="10px 0 0 10px" />
 
       <Router>
         <Switch>

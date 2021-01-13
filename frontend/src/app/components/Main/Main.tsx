@@ -19,6 +19,7 @@ const Wrapper = styled.main`
   justify-content: center;
 
   color: #fff;
+  border-radius: 10px;
   background-color: #303030;
 
   h1 {

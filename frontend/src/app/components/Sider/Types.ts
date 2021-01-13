@@ -1,6 +1,7 @@
-type Position = {
+interface SiderCSS extends JSX.IntrinsicAttributes {
   column: string;
   row: string;
-};
+  borderRadius?: string;
+}
 
-export type { Position };
+export type { SiderCSS };

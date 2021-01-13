@@ -2,8 +2,19 @@ import styled from "styled-components";
 
 const Header = () => {
   return (
-    <Wrapper>
-      <h1>Header</h1>
+    <Wrapper className="HEADER">
+      <div>Logo</div>
+      <div>*</div>
+      <div>*</div>
+      <div>*</div>
+      <div>*</div>
+      <div>*</div>
+      <div>*</div>
+      <div>*</div>
+      <div>*</div>
+      <div>*</div>
+      <div>Hello bitch!</div>
+      <div>Log out</div>
     </Wrapper>
   );
 };
@@ -11,21 +22,19 @@ const Header = () => {
 export default Header;
 
 const Wrapper = styled.header`
-  background-color: #d1d1d1;
-
   grid-column: 1 / 13;
   grid-row: 1 / 2;
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  grid-template-rows: 1;
 
   width: 100%;
   height: 70px;
-  color: #fff;
-  background-color: #303030;
+  border: 5px dashed;
 
-  h1 {
-    color: inherit;
+  div {
+    display: grid;
+    place-items: center;
   }
 `;

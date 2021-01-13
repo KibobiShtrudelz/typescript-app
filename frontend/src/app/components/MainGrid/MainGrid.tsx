@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 const MainGrid = ({ children }: any): JSX.Element => {
-  return <Wrapper className="App__Main-container-grid">{children}</Wrapper>;
+  return <Wrapper className="MAIN_GRID">{children}</Wrapper>;
 };
 
 export default MainGrid;

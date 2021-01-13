@@ -1,9 +1,9 @@
 import styled, { StyledComponent } from "styled-components";
-import { Position } from "./Types";
+import { SiderCSS } from "./Types";
 
-const Sider = (props: Position): JSX.Element => {
+const Sider = ({ row, column, borderRadius }: SiderCSS): JSX.Element => {
   return (
-    <Wrapper column={props.column} row={props.row}>
+    <Wrapper column={column} row={row} borderRadius={borderRadius}>
       <ul>
         <li>nav item 1</li>
         <li>nav item 2</li>
@@ -16,17 +16,14 @@ const Sider = (props: Position): JSX.Element => {
 
 export default Sider;
 
-const Wrapper: StyledComponent<
-  "nav",
-  any,
-  { column: string; row: string },
-  never
-> = styled.nav`
-  grid-column: ${(props: any) => props.column};
-  grid-row: ${(props: any) => props.row};
+const Wrapper: StyledComponent<"nav", any, SiderCSS, never> = styled.nav`
+  grid-column: ${({ column }: SiderCSS) => column};
+  grid-row: ${({ row }) => row};
 
+  width: 160px;
   color: #fff;
   background-color: #303030;
+  border-radius: ${({ borderRadius }) => borderRadius};
 
   ul {
     color: inherit;
