@@ -20,7 +20,7 @@ const Wrapper = styled.footer`
 
   height: 70px;
   color: #fff;
-  background-color: #303030;
+  background-color: #fff;
 
   h1 {
     color: inherit;

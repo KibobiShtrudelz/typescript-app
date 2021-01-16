@@ -6,18 +6,22 @@ import {
   // SerializedError,
 } from "@reduxjs/toolkit";
 import { createUser } from "../services/cmsService";
+import { ApplicationState } from "../types/state";
 import User from "../types/user";
 import { TThunk } from "./store";
 
 type State = {
-  data: User | null;
+  data: User | {};
+  loaded: boolean;
+  loading: boolean;
   error: Error | string | null;
 };
 
-const initialState: User = {
-  jwt: "",
-  email: "",
-  username: "",
+const initialState: ApplicationState["user"] = {
+  data: {},
+  error: "",
+  loaded: false,
+  loading: false,
 };
 
 const userSignUp: TThunk<User, User> = createAsyncThunk(
@@ -25,13 +29,19 @@ const userSignUp: TThunk<User, User> = createAsyncThunk(
   async (userData: User) => await createUser(userData)
 );
 
-// TODO: направи default State type, включващ loading, loaded и error props
 const reducer = createReducer(initialState, {
-  [userSignUp.pending.type]: () => {},
-  [userSignUp.fulfilled.type]: (state, action: PayloadAction<User>) => {
-    state = action.payload;
+  [userSignUp.pending.type]: state => {
+    state.loading = true;
   },
-  [userSignUp.rejected.type]: () => {},
+  [userSignUp.fulfilled.type]: (state, action: PayloadAction<User>) => {
+    state.data = action.payload;
+    state.loaded = true;
+  },
+  [userSignUp.rejected.type]: (state, action) => {
+    state.loaded = true;
+    state.loading = false;
+    state.error = action.error.message;
+  },
 });
 
 const actions = {

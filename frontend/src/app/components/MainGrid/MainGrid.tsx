@@ -10,8 +10,9 @@ const Wrapper = styled.div`
   display: grid;
   grid-template-columns: repeat(12, 1fr);
   grid-template-rows: repeat(12, 1fr);
-  grid-gap: 10px;
+  /* grid-gap: 10px; */
 
   height: 100vh;
   overflow-y: auto;
+  background-color: #303030;
 `;

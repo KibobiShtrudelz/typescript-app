@@ -2,7 +2,7 @@ type User = {
   id?: number;
   jwt?: string;
   email: string;
-  username: string;
+  username: User["email"];
   password?: string;
   errorMessage?: string;
 };

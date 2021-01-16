@@ -1,7 +1,12 @@
 import User from "./user";
 
 interface ApplicationState {
-  user: User;
+  user: {
+    data: User | {};
+    loading: boolean;
+    loaded: boolean;
+    error: string;
+  };
 }
 
 export default ApplicationState;

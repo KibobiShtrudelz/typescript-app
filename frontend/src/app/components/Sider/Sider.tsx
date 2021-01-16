@@ -22,7 +22,7 @@ const Wrapper: StyledComponent<"nav", any, SiderCSS, never> = styled.nav`
 
   width: 160px;
   color: #fff;
-  background-color: #303030;
+  background-color: #fff;
   border-radius: ${({ borderRadius }) => borderRadius};
 
   ul {
