@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
-const MainGrid = ({ children }: any): JSX.Element => {
-  return <Wrapper className="MAIN_GRID">{children}</Wrapper>;
-};
+const MainGrid = ({ children }: any): JSX.Element => (
+  <Wrapper className="MAIN_GRID">{children}</Wrapper>
+);
 
 export default MainGrid;
 

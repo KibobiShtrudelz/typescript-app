@@ -6,7 +6,7 @@ import Header from "./app/components/Header";
 import Main from "./app/components/Main";
 import pathnames from "./pathnames";
 
-const App = () => {
+function App() {
   return (
     <MainGrid>
       <Header />
@@ -20,6 +20,6 @@ const App = () => {
       </Router>
     </MainGrid>
   );
-};
+}
 
 export default App;
