@@ -1,129 +1,113 @@
-import React from "react";
-import { Modal, Form, Input, Checkbox, Button } from "antd";
-import {
-  emailRules,
-  passwordRules,
-  confirmPasswordRules,
-  agreementRules,
-} from "./formRules";
-import { PropsTypes } from "./types";
+import { Formik, Form, Field } from "formik";
+import Button from "react-bootstrap/Button";
+import React, { useState } from "react";
+import * as Yup from "yup";
+
 import { useAppDispatch } from "../../redux/store";
 import userStore from "../../redux/userStore";
 
-const formItemLayout = {
-  labelCol: {
-    xs: {
-      span: 24,
-    },
-    sm: {
-      span: 8,
-    },
-  },
-  wrapperCol: {
-    xs: {
-      span: 24,
-    },
-    sm: {
-      span: 16,
-    },
-  },
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faEnvelope,
+  faUserLock,
+  faUserAlt,
+  faShower,
+} from "@fortawesome/free-solid-svg-icons";
+
+interface FormValues {
+  email: string;
+  password: string;
+  username: string;
+}
+
+const initialValues: FormValues = {
+  email: "",
+  password: "",
+  username: "",
 };
 
-const tailFormItemLayout = {
-  wrapperCol: {
-    xs: {
-      span: 24,
-      offset: 0,
-    },
-    sm: {
-      span: 16,
-      offset: 8,
-    },
-  },
-};
-
-const SignUp = ({
-  showSignUpModal,
-  closeSignUpModal,
-}: PropsTypes): JSX.Element => {
-  const [form] = Form.useForm();
+function SignUp(): JSX.Element {
+  const [showPwd, setShowPwd] = useState<boolean>(false);
 
   const dispatch = useAppDispatch();
 
-  console.log("CMS URL:", process.env.REACT_APP_CMS_BASE_URL);
-
-  const onFinish = (values: any) => {
-    console.log("Received values of form: ", values);
-    dispatch(
-      userStore.actions.userSignUp({
-        email: values.email,
-        username: values.email,
-        password: values.password,
-      })
-    );
-  };
+  const SignupSchema: any = Yup.object().shape({
+    email: Yup.string().email("Invalid e-mail!").required("Required"),
+    password: Yup.string()
+      .min(2, "Password is too Short!")
+      .max(50, "Password is too Long!")
+      .required("Required"),
+    username: Yup.string()
+      .min(2, "Username is too Short!")
+      .max(50, "Username is too Long!")
+      .required("Required"),
+  });
 
   return (
-    <div>
-      <Modal
-        title={<span style={{ textAlign: "center" }}>🖖</span>}
-        centered
-        visible={showSignUpModal}
-        footer={null}
-        onCancel={() => closeSignUpModal()}
-      >
-        <Form
-          {...formItemLayout}
-          form={form}
-          name="register"
-          onFinish={onFinish}
-          scrollToFirstError
-        >
-          <Form.Item name="email" label="Имейл" rules={emailRules}>
-            <Input />
-          </Form.Item>
+    <Formik
+      initialValues={initialValues}
+      validationSchema={SignupSchema}
+      onSubmit={(values: FormValues, actions: any) => {
+        actions.setSubmitting(true);
+        actions.resetForm();
+        dispatch(userStore.actions.userSignUp(values));
+      }}
+    >
+      {({ errors, touched }: any) => (
+        <Form noValidate>
+          <div className="container">
+            <div className="row">
+              <div className="col-1">
+                <label htmlFor="email">
+                  <FontAwesomeIcon icon={faEnvelope} />
+                </label>
+              </div>
 
-          <Form.Item
-            name="password"
-            label="Парола"
-            rules={passwordRules}
-            hasFeedback
-          >
-            <Input.Password />
-          </Form.Item>
+              <div className="col-2">
+                <Field name="email" type="email" />
+              </div>
 
-          <Form.Item
-            name="confirm"
-            label="Потвърдете паролата"
-            dependencies={["password"]}
-            hasFeedback
-            rules={confirmPasswordRules}
-          >
-            <Input.Password />
-          </Form.Item>
+              {errors.email && touched.email && (
+                <span className="error">{errors.email}</span>
+              )}
+            </div>
+          </div>
 
-          <Form.Item
-            name="agreement"
-            valuePropName="checked"
-            rules={agreementRules}
-            {...tailFormItemLayout}
-          >
-            <Checkbox>
-              Прочетох{" "}
-              <a href="http://localhost:3000/terms-and-conditions">условията</a>{" "}
-              за ползване на сайта
-            </Checkbox>
-          </Form.Item>
-
-          <Form.Item {...tailFormItemLayout}>
-            <Button type="primary" htmlType="submit">
-              Регистрирай се
+          <div className="form-row">
+            <label htmlFor="password">
+              <FontAwesomeIcon icon={faUserLock} />
+            </label>
+            <Field name="password" type={showPwd ? "text" : "password"} />
+            <FontAwesomeIcon icon={faShower} />
+            <Button variant="info" onClick={() => setShowPwd(!showPwd)}>
+              Show password
             </Button>
-          </Form.Item>
+
+            {errors.password && touched.password && (
+              <span className="error">{errors.password}</span>
+            )}
+          </div>
+
+          <div className="form-row">
+            <label htmlFor="username">
+              <FontAwesomeIcon icon={faUserAlt} />
+            </label>
+            <Field name="username" />
+
+            {errors.username && touched.username && (
+              <span className="error">{errors.username}</span>
+            )}
+          </div>
+
+          <Button variant="primary" as="input" type="submit" value="Sign Up" />
+
+          {/* <div className="submit-btn-wrapper">
+            <button type="submit">Submit</button>
+          </div> */}
         </Form>
-      </Modal>
-    </div>
+      )}
+    </Formik>
   );
-};
+}
 
 export default SignUp;

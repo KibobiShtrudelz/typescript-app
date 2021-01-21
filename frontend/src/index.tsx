@@ -5,11 +5,15 @@ import App from "./App";
 import { store } from "./app/redux/store";
 import { Provider } from "react-redux";
 import * as serviceWorker from "./serviceWorker";
+import { ThemeProvider } from "styled-components";
+import { defaultTheme as theme } from "./app/theme";
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <ThemeProvider theme={theme}>
+        <App />
+      </ThemeProvider>
     </Provider>
   </React.StrictMode>,
   document.getElementById("root")

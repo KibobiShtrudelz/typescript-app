@@ -1,12 +1,14 @@
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-import "./App.css";
 import MainGrid from "./app/components/MainGrid";
 import Header from "./app/components/Header";
 import Main from "./app/components/Main";
 import pathnames from "./pathnames";
 
-function App() {
+import "./App.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+
+const App = () => {
   return (
     <MainGrid>
       <Header />
@@ -20,6 +22,6 @@ function App() {
       </Router>
     </MainGrid>
   );
-}
+};
 
 export default App;
