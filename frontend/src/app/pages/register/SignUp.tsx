@@ -6,12 +6,9 @@ import * as Yup from "yup";
 import { useAppDispatch } from "../../redux/store";
 import userStore from "../../redux/userStore";
 
+import { faEnvelope, faUserLock } from "@fortawesome/free-solid-svg-icons";
+import backgroundImg from "../../../images/signin-background.jpg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faEnvelope,
-  faUserLock,
-  // faUserAlt,
-} from "@fortawesome/free-solid-svg-icons";
 
 interface FormValues {
   email: string;
@@ -48,59 +45,81 @@ const SignUp = () => {
   });
 
   return (
-    <Wrap className="container-fluid">
-      <form onSubmit={formik.handleSubmit}>
-        <div className="mb-3">
-          <label htmlFor="email">
-            <FontAwesomeIcon icon={faEnvelope} /> Email Address
-          </label>
+    <Background img={backgroundImg}>
+      <Wrap className="container mt-5">
+        <form className="p-3" onSubmit={formik.handleSubmit}>
+          <div className="mb-3">
+            <label htmlFor="email">
+              <FontAwesomeIcon icon={faEnvelope} /> Email Address
+            </label>
 
-          <input
-            id="email"
-            className="form-control"
-            name="email"
-            type="email"
-            onChange={formik.handleChange}
-            value={formik.values.email}
-          />
+            <input
+              id="email"
+              className="form-control"
+              name="email"
+              type="email"
+              onChange={formik.handleChange}
+              value={formik.values.email}
+            />
 
-          {formik.errors.email && formik.touched.email && (
-            <span className="error">{formik.errors.email}</span>
-          )}
-        </div>
+            {formik.errors.email && formik.touched.email && (
+              <span className="error">{formik.errors.email}</span>
+            )}
 
-        <div className="mb-3">
-          <label htmlFor="password">
-            <FontAwesomeIcon icon={faUserLock} /> Password
-          </label>
+            <div id="emailHelp" className="form-text">
+              <small>We'll never share your email with anyone else.</small>
+            </div>
+          </div>
 
-          <input
-            id="password"
-            className="form-control"
-            name="password"
-            type="password"
-            onChange={formik.handleChange}
-            value={formik.values.password}
-          />
+          <div className="mb-3">
+            <label htmlFor="password">
+              <FontAwesomeIcon icon={faUserLock} /> Password
+            </label>
 
-          {formik.errors.password && formik.touched.password && (
-            <span className="error">{formik.errors.password}</span>
-          )}
-        </div>
+            <input
+              id="password"
+              className="form-control"
+              name="password"
+              type="password"
+              onChange={formik.handleChange}
+              value={formik.values.password}
+            />
 
-        <button type="submit" className="btn btn-primary">
-          Sign Up
-        </button>
-      </form>
-    </Wrap>
+            {formik.errors.password && formik.touched.password && (
+              <span className="error">{formik.errors.password}</span>
+            )}
+          </div>
+
+          <div className="d-flex justify-content-end">
+            <button type="submit" className="btn btn-primary mt-3">
+              Sign Up
+            </button>
+          </div>
+        </form>
+      </Wrap>
+    </Background>
   );
 };
 
 export default SignUp;
 
+type BgProps = {
+  img: string;
+};
+
+const Background = styled.div<BgProps>`
+  background-image: url(${({ img }) => img});
+  position: absolute;
+  left: 0;
+  top: 0;
+  min-width: 100%;
+  min-height: 100vh;
+`;
+
 const Wrap = styled.div`
-  padding: 10px;
-  border-radius: 6px;
+  box-shadow: 0 0 12px 0 #adadad;
   background-color: #fff;
-  box-shadow: 0 0 10px 0 #adadad;
+  border-radius: 6px;
+  max-width: 500px;
+  padding: 10px;
 `;

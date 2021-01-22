@@ -12,8 +12,8 @@ export default Main;
 
 const StyledMain = styled.main`
   /* border: 3px dashed #000; */
-
+  background-color: #e9e8e8;
+  position: relative;
   min-height: 100vh;
   padding-top: 12px;
-  background-color: #e9e8e8;
 `;
