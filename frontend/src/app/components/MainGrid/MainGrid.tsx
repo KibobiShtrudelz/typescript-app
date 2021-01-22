@@ -14,5 +14,5 @@ const Wrapper = styled.div`
 
   height: 100vh;
   overflow-y: auto;
-  background-color: #303030;
+  /* background-color: #303030; */
 `;
