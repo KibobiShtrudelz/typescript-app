@@ -11,7 +11,9 @@ const Main = ({ children }: Props): JSX.Element => (
 export default Main;
 
 const StyledMain = styled.main`
-  /* border: 5px dashed #000; */
+  /* border: 3px dashed #000; */
 
-  margin-top: 8px;
+  min-height: 100vh;
+  padding-top: 12px;
+  background-color: #e9e8e8;
 `;

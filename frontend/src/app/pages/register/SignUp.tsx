@@ -1,6 +1,6 @@
-import { Formik, Form, Field } from "formik";
-import Button from "react-bootstrap/Button";
 import React, { useState } from "react";
+import styled from "styled-components";
+import { useFormik } from "formik";
 import * as Yup from "yup";
 
 import { useAppDispatch } from "../../redux/store";
@@ -10,100 +10,97 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faEnvelope,
   faUserLock,
-  faUserAlt,
-  faShower,
+  // faUserAlt,
 } from "@fortawesome/free-solid-svg-icons";
 
 interface FormValues {
   email: string;
   password: string;
-  username: string;
 }
 
 const initialValues: FormValues = {
   email: "",
   password: "",
-  username: "",
 };
 
-function SignUp(): JSX.Element {
-  const [showPwd, setShowPwd] = useState<boolean>(false);
+const SignupSchema: any = Yup.object().shape({
+  email: Yup.string().email("Invalid e-mail!").required("Required"),
+  password: Yup.string()
+    .min(2, "Password is too Short!")
+    .max(50, "Password is too Long!")
+    .required("Required"),
+  username: Yup.string()
+    .min(2, "Username is too Short!")
+    .max(50, "Username is too Long!")
+    .required("Required"),
+});
 
-  const dispatch = useAppDispatch();
+const SignUp = () => {
+  // Pass the useFormik() hook initial form values and a submit function that will
+  // be called when the form is submitted
 
-  const SignupSchema: any = Yup.object().shape({
-    email: Yup.string().email("Invalid e-mail!").required("Required"),
-    password: Yup.string()
-      .min(2, "Password is too Short!")
-      .max(50, "Password is too Long!")
-      .required("Required"),
-    username: Yup.string()
-      .min(2, "Username is too Short!")
-      .max(50, "Username is too Long!")
-      .required("Required"),
+  const formik = useFormik({
+    initialValues,
+    validationSchema: SignupSchema,
+    onSubmit: values => {
+      alert(JSON.stringify(values, null, 2));
+    },
   });
 
   return (
-    <Formik
-      initialValues={initialValues}
-      validationSchema={SignupSchema}
-      onSubmit={(values: FormValues, actions: any) => {
-        actions.setSubmitting(true);
-        actions.resetForm();
-        dispatch(userStore.actions.userSignUp(values));
-      }}
-    >
-      {(props: any) => {
-        console.log("props", props);
+    <Wrap className="container-fluid">
+      <form onSubmit={formik.handleSubmit}>
+        <div className="mb-3">
+          <label htmlFor="email">
+            <FontAwesomeIcon icon={faEnvelope} /> Email Address
+          </label>
 
-        return (
-          <Form noValidate>
-            <div className="mb-3">
-              <label htmlFor="email" className="form-label">
-                <FontAwesomeIcon icon={faEnvelope} /> Email address
-              </label>
-              <Field
-                id="email"
-                className="form-control"
-                name="email"
-                type="email"
-                aria-describedby="emailHelp"
-              />
+          <input
+            id="email"
+            className="form-control"
+            name="email"
+            type="email"
+            onChange={formik.handleChange}
+            value={formik.values.email}
+          />
 
-              {props.errors.email && props.touched.email && (
-                <span className="error">{props.errors.email}</span>
-              )}
+          {formik.errors.email && formik.touched.email && (
+            <span className="error">{formik.errors.email}</span>
+          )}
+        </div>
 
-              <div id="emailHelp" className="form-text">
-                We'll never share your email with anyone else.
-              </div>
-            </div>
+        <div className="mb-3">
+          <label htmlFor="password">
+            <FontAwesomeIcon icon={faUserLock} /> Password
+          </label>
 
-            <div className="mb-3">
-              <label htmlFor="password" className="form-label">
-                <FontAwesomeIcon icon={faUserLock} /> Password
-              </label>
+          <input
+            id="password"
+            className="form-control"
+            name="password"
+            type="password"
+            onChange={formik.handleChange}
+            value={formik.values.password}
+          />
 
-              <Field
-                id="password"
-                className="form-control"
-                name="password"
-                type={showPwd ? "text" : "password"}
-              />
+          {formik.errors.password && formik.touched.password && (
+            <span className="error">{formik.errors.password}</span>
+          )}
+        </div>
 
-              {props.errors.password && props.touched.password && (
-                <span className="error">{props.errors.password}</span>
-              )}
-            </div>
-
-            <button type="submit" className="btn btn-primary">
-              Submit
-            </button>
-          </Form>
-        );
-      }}
-    </Formik>
+        <button type="submit" className="btn btn-primary">
+          Sign Up
+        </button>
+      </form>
+    </Wrap>
   );
-}
+};
 
 export default SignUp;
+
+const Wrap = styled.div`
+  padding: 10px;
+  border-radius: 6px;
+  background-color: #fff;
+  box-shadow: 0 0 10px 0 #adadad;
+`;
