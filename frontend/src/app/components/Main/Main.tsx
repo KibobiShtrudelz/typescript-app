@@ -1,20 +1,17 @@
 import styled from "styled-components";
 
-function Main(): JSX.Element {
-  return <Wrapper>Main</Wrapper>;
-}
+type Props = {
+  children?: React.ReactNode;
+};
+
+const Main = ({ children }: Props): JSX.Element => (
+  <StyledMain className="container-fluid">{children}</StyledMain>
+);
 
 export default Main;
 
-const Wrapper = styled.main`
-  grid-column: 1 / 13;
-  grid-row: 2 / 13;
+const StyledMain = styled.main`
+  /* border: 5px dashed #000; */
 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  color: #fff;
-  position: relative;
-  background-color: #fff;
+  margin-top: 8px;
 `;

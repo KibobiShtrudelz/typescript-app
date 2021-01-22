@@ -9,30 +9,33 @@ import logo from "../../../images/logo-react-js.png";
 
 const Header = (): JSX.Element => {
   return (
-    <Wrap className="HEADER-WRAP container-fluid d-flex flex-sm-column">
+    <StyledHeader className="HEADER-WRAP container-fluid d-flex flex-sm-column">
       <Row className="row">
-        <LCol className="LEFT-COL col d-flex justify-content-center align-items-center">
-          <ImgWrap className="">
+        <LCol className="LEFT-COL col d-flex justify-content-start align-items-center">
+          <ImgWrap>
             <StyledImg src={logo} alt="logo" />
           </ImgWrap>
         </LCol>
 
-        <RCol className="RIGHT-COL col d-flex justify-content-center align-items-center">
-          <ButtonWrap className="">
+        <RCol className="RIGHT-COL col d-flex justify-content-end align-items-center">
+          <ButtonWrap>
             <Link to={pathnames.signin}>
               <Button as="input" type="button" value="Sign in" />
             </Link>
           </ButtonWrap>
         </RCol>
       </Row>
-    </Wrap>
+    </StyledHeader>
   );
 };
 
 export default Header;
 
-const Wrap = styled.div`
-  border: 5px dashed;
+const StyledHeader = styled.header`
+  position: relative;
+  z-index: 10;
+  padding: 10px 0;
+  box-shadow: 0 0 10px 0 #303030;
 `;
 
 const ImgWrap = styled.div``;
@@ -41,17 +44,14 @@ const StyledImg = styled.img`
   width: 120px;
 `;
 
-const ButtonWrap = styled.div``;
+const ButtonWrap = styled.div`
+  margin-right: 20px;
+`;
 
 const Row = styled.div`
-  border: 4px dotted;
   width: 100vw;
 `;
 
-const LCol = styled.div`
-  border: 3px solid red;
-`;
+const LCol = styled.div``;
 
-const RCol = styled.div`
-  border: 3px solid blue;
-`;
+const RCol = styled.div``;

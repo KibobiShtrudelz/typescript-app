@@ -53,59 +53,55 @@ function SignUp(): JSX.Element {
         dispatch(userStore.actions.userSignUp(values));
       }}
     >
-      {({ errors, touched }: any) => (
-        <Form noValidate>
-          <div className="container">
-            <div className="row">
-              <div className="col-1">
-                <label htmlFor="email">
-                  <FontAwesomeIcon icon={faEnvelope} />
-                </label>
-              </div>
+      {(props: any) => {
+        console.log("props", props);
 
-              <div className="col-2">
-                <Field name="email" type="email" />
-              </div>
+        return (
+          <Form noValidate>
+            <div className="mb-3">
+              <label htmlFor="email" className="form-label">
+                <FontAwesomeIcon icon={faEnvelope} /> Email address
+              </label>
+              <Field
+                id="email"
+                className="form-control"
+                name="email"
+                type="email"
+                aria-describedby="emailHelp"
+              />
 
-              {errors.email && touched.email && (
-                <span className="error">{errors.email}</span>
+              {props.errors.email && props.touched.email && (
+                <span className="error">{props.errors.email}</span>
+              )}
+
+              <div id="emailHelp" className="form-text">
+                We'll never share your email with anyone else.
+              </div>
+            </div>
+
+            <div className="mb-3">
+              <label htmlFor="password" className="form-label">
+                <FontAwesomeIcon icon={faUserLock} /> Password
+              </label>
+
+              <Field
+                id="password"
+                className="form-control"
+                name="password"
+                type={showPwd ? "text" : "password"}
+              />
+
+              {props.errors.password && props.touched.password && (
+                <span className="error">{props.errors.password}</span>
               )}
             </div>
-          </div>
 
-          <div className="form-row">
-            <label htmlFor="password">
-              <FontAwesomeIcon icon={faUserLock} />
-            </label>
-            <Field name="password" type={showPwd ? "text" : "password"} />
-            <FontAwesomeIcon icon={faShower} />
-            <Button variant="info" onClick={() => setShowPwd(!showPwd)}>
-              Show password
-            </Button>
-
-            {errors.password && touched.password && (
-              <span className="error">{errors.password}</span>
-            )}
-          </div>
-
-          <div className="form-row">
-            <label htmlFor="username">
-              <FontAwesomeIcon icon={faUserAlt} />
-            </label>
-            <Field name="username" />
-
-            {errors.username && touched.username && (
-              <span className="error">{errors.username}</span>
-            )}
-          </div>
-
-          <Button variant="primary" as="input" type="submit" value="Sign Up" />
-
-          {/* <div className="submit-btn-wrapper">
-            <button type="submit">Submit</button>
-          </div> */}
-        </Form>
-      )}
+            <button type="submit" className="btn btn-primary">
+              Submit
+            </button>
+          </Form>
+        );
+      }}
     </Formik>
   );
 }
