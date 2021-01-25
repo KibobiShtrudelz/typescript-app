@@ -1,9 +1,10 @@
 import Button from "react-bootstrap/Button";
 import Modal from "react-bootstrap/Modal";
+import styled from "styled-components";
 
 const BsModal = (props: any): JSX.Element => {
   return (
-    <Modal
+    <StyledModal
       {...props}
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
@@ -17,15 +18,25 @@ const BsModal = (props: any): JSX.Element => {
         </Modal.Header>
       )}
 
-      <Modal.Body>{props.body}</Modal.Body>
+      <StyledBody>{props.body}</StyledBody>
 
       {props.footer && (
         <Modal.Footer>
           <Button onClick={props.onHide}>Close</Button>
         </Modal.Footer>
       )}
-    </Modal>
+    </StyledModal>
   );
 };
 
 export default BsModal;
+
+const StyledModal = styled(Modal)`
+  backdrop-filter: blur(20px);
+`;
+
+const StyledBody = styled(Modal.Body)`
+  box-shadow: 0 0 14px 0 #d5d5d5;
+  border-radius: 6px;
+  border: none;
+`;

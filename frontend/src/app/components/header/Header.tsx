@@ -1,11 +1,11 @@
 import Button from "react-bootstrap/Button";
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-import SignUp from "../../pages/register";
+import SignUp from "../../components/register";
 
 import logo from "../../../images/logo-react-js.png";
-import { Link } from "react-router-dom";
 import pathnames from "../../../pathnames";
 import BsModal from "../common/Modal";
 
@@ -26,10 +26,6 @@ const Header = (): JSX.Element => {
 
           <RCol className="RIGHT-COL col d-flex justify-content-end align-items-center">
             <ButtonWrap>
-              {/* <Link to={pathnames.signin}>
-                <Button as="input" type="button" value="Sign in" />
-              </Link> */}
-
               <Button
                 as="input"
                 type="button"

@@ -9,39 +9,53 @@ import * as Yup from "yup";
 import { faEnvelope, faUserLock } from "@fortawesome/free-solid-svg-icons";
 // import backgroundImg from "../../../images/signin-background.jpg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useAppDispatch } from "../../redux/store";
+import userStore from "../../redux/userStore";
 // import { device } from "../../theme";
 
 interface FormValues {
   email: string;
   password: string;
+  errors: {
+    email: string;
+    password: string;
+  };
 }
 
 const initialValues: FormValues = {
   email: "",
   password: "",
+  errors: {
+    email: "",
+    password: "",
+  },
 };
 
-const SignupSchema: any = Yup.object().shape({
-  email: Yup.string().email("Invalid e-mail!").required("Required"),
-  password: Yup.string()
-    .min(2, "Password is too Short!")
-    .max(50, "Password is too Long!")
-    .required("Required"),
-  username: Yup.string()
-    .min(2, "Username is too Short!")
-    .max(50, "Username is too Long!")
-    .required("Required"),
-});
-
 const SignUp = (props: { hide: () => void }) => {
+  const dispatch = useAppDispatch();
+
+  const SignupSchema: any = Yup.object().shape({
+    email: Yup.string().email("Invalid e-mail!").required("Required"),
+    password: Yup.string()
+      .min(2, "Password is too Short!")
+      .max(50, "Password is too Long!")
+      .required("Required"),
+  });
+
   // Pass the useFormik() hook initial form values and a submit function that will
   // be called when the form is submitted
-  const formik = useFormik({
+  const formik = useFormik<FormValues>({
     initialValues,
     validationSchema: SignupSchema,
-    onSubmit: values => {
-      alert(JSON.stringify(values, null, 2));
-      props.hide && props.hide();
+    onSubmit: (values: any) => {
+      dispatch(
+        userStore.actions.userSignUp({
+          email: values.email,
+          password: values.password,
+          username: values.email,
+        })
+      );
+      // props.hide && props.hide();
     },
   });
 
@@ -116,4 +130,14 @@ const Wrap = styled.div`
   border-radius: 6px;
   max-width: 1500px;
   padding: 10px;
+
+  & > form {
+    & > div {
+      & > span {
+        &.error {
+          color: #ff3333;
+        }
+      }
+    }
+  }
 `;
