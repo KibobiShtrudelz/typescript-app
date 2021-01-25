@@ -1,31 +1,54 @@
 import Button from "react-bootstrap/Button";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
 import styled from "styled-components";
-import React from "react";
 
-import pathnames from "../../../pathnames";
+import SignUp from "../../pages/register";
 
 import logo from "../../../images/logo-react-js.png";
+import { Link } from "react-router-dom";
+import pathnames from "../../../pathnames";
+import BsModal from "../common/Modal";
 
 const Header = (): JSX.Element => {
-  return (
-    <StyledHeader className="HEADER-WRAP container-fluid d-flex flex-sm-column">
-      <Row className="row">
-        <LCol className="LEFT-COL col d-flex justify-content-start align-items-center">
-          <ImgWrap>
-            <StyledImg src={logo} alt="logo" />
-          </ImgWrap>
-        </LCol>
+  const [showModal, setShowModal] = useState<boolean>(false);
 
-        <RCol className="RIGHT-COL col d-flex justify-content-end align-items-center">
-          <ButtonWrap>
-            <Link to={pathnames.signin}>
-              <Button as="input" type="button" value="Sign in" />
-            </Link>
-          </ButtonWrap>
-        </RCol>
-      </Row>
-    </StyledHeader>
+  return (
+    <>
+      <StyledHeader className="HEADER-WRAP container-fluid d-flex flex-sm-column">
+        <Row className="row">
+          <LCol className="LEFT-COL col d-flex justify-content-start align-items-center">
+            <ImgWrap>
+              <Link to={pathnames.root}>
+                <StyledImg src={logo} alt="logo" />
+              </Link>
+            </ImgWrap>
+          </LCol>
+
+          <RCol className="RIGHT-COL col d-flex justify-content-end align-items-center">
+            <ButtonWrap>
+              {/* <Link to={pathnames.signin}>
+                <Button as="input" type="button" value="Sign in" />
+              </Link> */}
+
+              <Button
+                as="input"
+                type="button"
+                value="Sign in"
+                onClick={() => setShowModal(!showModal)}
+              />
+            </ButtonWrap>
+          </RCol>
+        </Row>
+      </StyledHeader>
+
+      {showModal && (
+        <BsModal
+          show={showModal}
+          onHide={() => setShowModal(false)}
+          body={<SignUp hide={() => setShowModal(false)} />}
+        />
+      )}
+    </>
   );
 };
 

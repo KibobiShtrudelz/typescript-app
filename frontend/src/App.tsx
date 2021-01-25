@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
 import Header from "./app/components/Header";
-import SignUp from "./app/pages/register";
+// import SignUp from "./app/pages/register";
 import Main from "./app/components/Main";
 import pathnames from "./pathnames";
 
@@ -16,9 +16,9 @@ const App = () => {
       <Main>
         <Switch>
           <Route exact path={pathnames.root}></Route>
-          <Route path={pathnames.signin}>
+          {/* <Route path={pathnames.signin}>
             <SignUp />
-          </Route>
+          </Route> */}
         </Switch>
       </Main>
     </Router>
