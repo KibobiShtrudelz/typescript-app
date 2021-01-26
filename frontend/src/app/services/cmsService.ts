@@ -6,10 +6,10 @@ const cmsClient = createCmsClient();
 
 const createUser = async (userData: User): Promise<User> => {
   try {
-    const { data } = await cmsClient.post("/users", userData);
-    console.log("data", data);
+    const response = await cmsClient.post("/users", userData);
+    console.log("response", response);
 
-    return data;
+    return response.data;
   } catch (error) {
     // TODO: fix formatError()
     // return formatError(error);

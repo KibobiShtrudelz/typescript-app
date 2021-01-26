@@ -104,7 +104,11 @@ const SignUp = (props: { hide: () => void }) => {
           )}
         </div>
 
-        <div className="d-flex justify-content-end">
+        <span>
+          Allready have account? <span className="link">Log in</span>
+        </span>
+
+        <div className="d-flex justify-content-end mt-3">
           <button type="submit" className="btn btn-primary mt-3">
             Sign Up
           </button>
@@ -136,6 +140,11 @@ const Wrap = styled.div`
       & > span {
         &.error {
           color: #ff3333;
+        }
+
+        &.link {
+          color: blue;
+          text-decoration: underline;
         }
       }
     }

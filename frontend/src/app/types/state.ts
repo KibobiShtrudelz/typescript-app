@@ -1,8 +1,11 @@
-import User from "./user";
+import { User } from "./user";
 
 interface ApplicationState {
+  authForm: {
+    isVisible: boolean;
+  };
   user: {
-    data: User | {};
+    data: User;
     loading: boolean;
     loaded: boolean;
     error: string;

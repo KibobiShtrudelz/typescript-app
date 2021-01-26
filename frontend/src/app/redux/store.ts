@@ -6,10 +6,12 @@ import {
 } from "@reduxjs/toolkit";
 import { useDispatch } from "react-redux";
 import { ApplicationState } from "../types/state";
+import authFormStore from "./authFormStore";
 import userStore from "./userStore";
 
 export const store = configureStore({
   reducer: {
+    authForm: authFormStore.reducer,
     user: userStore.reducer,
   },
 });

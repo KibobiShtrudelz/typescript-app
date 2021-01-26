@@ -7,25 +7,27 @@ import {
 } from "@reduxjs/toolkit";
 import { createUser } from "../services/cmsService";
 import { ApplicationState } from "../types/state";
-import User from "../types/user";
+import { User } from "../types/user";
 import { TThunk } from "./store";
 
 type State = {
-  data: User | {};
+  data: User;
   loaded: boolean;
   loading: boolean;
   error: Error | string | null;
 };
 
 const initialState: ApplicationState["user"] = {
-  data: {},
+  data: {
+    email: "",
+  },
   error: "",
   loaded: false,
   loading: false,
 };
 
 const userSignUp: TThunk<User, User> = createAsyncThunk(
-  "user/signUp",
+  "user/sign-up",
   async (userData: User) => await createUser(userData)
 );
 

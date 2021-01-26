@@ -1,7 +1,6 @@
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 
-import Header from "./app/components/Header";
-// import SignUp from "./app/pages/register";
+import Header from "./app/components/header";
 import Main from "./app/components/Main";
 import pathnames from "./pathnames";
 
@@ -16,9 +15,6 @@ const App = () => {
       <Main>
         <Switch>
           <Route exact path={pathnames.root}></Route>
-          {/* <Route path={pathnames.signin}>
-            <SignUp />
-          </Route> */}
         </Switch>
       </Main>
     </Router>
