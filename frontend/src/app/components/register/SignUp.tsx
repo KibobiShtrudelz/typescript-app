@@ -50,18 +50,28 @@ const SignUp = (props: { hide: () => void }) => {
     initialValues,
     validationSchema: SignupSchema,
     onSubmit: (values: any) => {
-      dispatch(
-        userStore.actions.userSignUp({
-          email: values.email,
-          password: values.password,
-          username: values.email,
-        })
-      );
-      // props.hide && props.hide();
+      isSignUp
+        ? dispatch(
+            userStore.actions.userSignUp({
+              email: values.email,
+              password: values.password,
+              username: values.email,
+            })
+          )
+        : dispatch(
+            // TODO: Swap with LOG IN action when create one
+            userStore.actions.userSignUp({
+              email: values.email,
+              password: values.password,
+              username: values.email,
+            })
+          );
+
+      props.hide && props.hide();
     },
   });
 
-  // eslint-disable-next-lines
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => formik.resetForm(), [isSignUp]);
 
   return (
