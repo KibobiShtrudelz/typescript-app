@@ -5,6 +5,7 @@ export type User = {
   username?: User["email"];
   password?: string;
   errorMessage?: string;
+  authType?: string;
 };
 
 export type LoggedUser = {

@@ -1,4 +1,5 @@
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { useEffect } from "react";
 
 import Header from "./app/components/header";
 import Main from "./app/components/Main";
@@ -8,6 +9,10 @@ import "./App.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const App = () => {
+  useEffect(() => {
+    // TODO: Add cms call to "/me"
+  }, []);
+
   return (
     <Router>
       <Header />

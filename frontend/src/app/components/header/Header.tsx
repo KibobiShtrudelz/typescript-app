@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
-import SignUp from "../../components/register";
+import SignIn from "../../components/register";
 
 import logo from "../../../images/logo-react-js.png";
 import pathnames from "../../../pathnames";
@@ -41,7 +41,7 @@ const Header = (): JSX.Element => {
         <BsModal
           show={showModal}
           onHide={() => setShowModal(false)}
-          body={<SignUp hide={() => setShowModal(false)} />}
+          body={<SignIn hide={() => setShowModal(false)} />}
         />
       )}
     </>

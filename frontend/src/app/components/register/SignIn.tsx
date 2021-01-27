@@ -1,17 +1,12 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
-// import { useAppDispatch } from "../../redux/store";
-// import userStore from "../../redux/userStore";
-
 import { faEnvelope, faUserLock } from "@fortawesome/free-solid-svg-icons";
-// import backgroundImg from "../../../images/signin-background.jpg";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useAppDispatch } from "../../redux/store";
 import userStore from "../../redux/userStore";
-// import { device } from "../../theme";
 
 interface FormValues {
   email: string;
@@ -31,8 +26,8 @@ const initialValues: FormValues = {
   },
 };
 
-const SignUp = (props: { hide: () => void }) => {
-  const [isSignUp, setIsSignUp] = useState<boolean>(true);
+const SignIn = (props: { hide: () => void }) => {
+  const [isSignUp, setIsSignUp] = useState<boolean>(false);
 
   const dispatch = useAppDispatch();
 
@@ -44,28 +39,18 @@ const SignUp = (props: { hide: () => void }) => {
       .required("Password is required"),
   });
 
-  // Pass the useFormik() hook initial form values and a submit function that will
-  // be called when the form is submitted
   const formik = useFormik<FormValues>({
     initialValues,
     validationSchema: SignupSchema,
     onSubmit: (values: any) => {
-      isSignUp
-        ? dispatch(
-            userStore.actions.userSignUp({
-              email: values.email,
-              password: values.password,
-              username: values.email,
-            })
-          )
-        : dispatch(
-            // TODO: Swap with LOG IN action when create one
-            userStore.actions.userSignUp({
-              email: values.email,
-              password: values.password,
-              username: values.email,
-            })
-          );
+      dispatch(
+        userStore.actions.userSignIn({
+          email: values.email,
+          password: values.password,
+          username: values.email,
+          authType: isSignUp ? "sign up" : "log in",
+        })
+      );
 
       props.hide && props.hide();
     },
@@ -138,15 +123,7 @@ const SignUp = (props: { hide: () => void }) => {
   );
 };
 
-export default SignUp;
-
-// type BgProps = {
-//   img: string;
-// };
-
-// const Background = styled.div<BgProps>`
-//   background-image: url(${({ img }) => img});
-// `;
+export default SignIn;
 
 const Wrap = styled.div`
   background-color: #fff;

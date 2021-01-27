@@ -1,7 +1,6 @@
 import createCmsClient from "../common/cmsClient";
-import { Login } from "./types";
-
-const STRAPI_URL = process.env.REACT_APP_CMS_BASE_URL!;
+import { User } from "../../types/user";
+import Cookies from "universal-cookie";
 
 function isRequestSuccessful(status: number): boolean {
   if (status >= 200 && status < 400) {
@@ -11,10 +10,34 @@ function isRequestSuccessful(status: number): boolean {
   return false;
 }
 
-export async function login(data: Login) {
-  const response = await createCmsClient().post(STRAPI_URL, data);
+const cmsClient = createCmsClient();
 
-  if (isRequestSuccessful(response.status)) {
-    // redux action goes here
+export const signin = async ({
+  email,
+  username,
+  password,
+  authType,
+}: User): Promise<User | null> => {
+  try {
+    const isSignUp = authType === "sign up";
+    const authData = isSignUp
+      ? { email, username, password }
+      : { identifier: email, password };
+    const apiUrl = isSignUp ? "/users" : "/auth/local";
+
+    const response = await cmsClient.post(apiUrl, authData);
+
+    if (isRequestSuccessful(response.status)) {
+      const cookie = new Cookies();
+      cookie.set("jwt", response.data.jwt);
+
+      return response.data;
+    }
+
+    return null;
+  } catch (error) {
+    // TODO: fix formatError()
+    // return formatError(error);
+    return error.message;
   }
-}
+};

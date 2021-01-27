@@ -5,7 +5,7 @@ import {
   PayloadAction,
   // SerializedError,
 } from "@reduxjs/toolkit";
-import { createUser } from "../services/cmsService";
+import { signin } from "../services/user/userServices";
 import { ApplicationState } from "../types/state";
 import { User } from "../types/user";
 import { TThunk } from "./store";
@@ -26,20 +26,21 @@ const initialState: ApplicationState["user"] = {
   loading: false,
 };
 
-const userSignUp: TThunk<User, User> = createAsyncThunk(
-  "user/sign-up",
-  async (userData: User) => await createUser(userData)
+const userSignIn: TThunk<User | null, User> = createAsyncThunk(
+  "user/sign-in",
+  async (userData: User) => await signin(userData)
 );
 
 const reducer = createReducer(initialState, {
-  [userSignUp.pending.type]: state => {
+  [userSignIn.pending.type]: state => {
     state.loading = true;
   },
-  [userSignUp.fulfilled.type]: (state, action: PayloadAction<User>) => {
+  [userSignIn.fulfilled.type]: (state, action: PayloadAction<User>) => {
     state.data = action.payload;
     state.loaded = true;
+    state.loading = false;
   },
-  [userSignUp.rejected.type]: (state, action) => {
+  [userSignIn.rejected.type]: (state, action) => {
     state.loaded = true;
     state.loading = false;
     state.error = action.error.message;
@@ -47,7 +48,7 @@ const reducer = createReducer(initialState, {
 });
 
 const actions = {
-  userSignUp,
+  userSignIn,
 };
 
 const userStore = {

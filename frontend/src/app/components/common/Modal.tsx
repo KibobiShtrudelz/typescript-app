@@ -5,21 +5,20 @@ import styled from "styled-components";
 const BsModal = (props: any): JSX.Element => {
   return (
     <StyledModal
-      className="STYLED-MODAL"
-      {...props}
       size="lg"
       aria-labelledby="contained-modal-title-vcenter"
       centered
+      {...props}
     >
       {props.title && (
-        <Modal.Header className="MODAL-HEADER" closeButton>
+        <Modal.Header closeButton>
           <Modal.Title id="contained-modal-title-vcenter">
             {props.title}
           </Modal.Title>
         </Modal.Header>
       )}
 
-      <StyledBody className="MODAL-BODY">{props.body}</StyledBody>
+      <StyledBody>{props.body}</StyledBody>
 
       {props.footer && (
         <Modal.Footer>
