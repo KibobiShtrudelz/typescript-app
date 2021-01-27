@@ -17,7 +17,7 @@ export const signin = async ({
   username,
   password,
   authType,
-}: User): Promise<User | null> => {
+}: User): Promise<User | Error> => {
   try {
     const isSignUp = authType === "sign up";
     const authData = isSignUp
@@ -32,9 +32,11 @@ export const signin = async ({
       cookie.set("jwt", response.data.jwt);
 
       return response.data;
+    } else {
+      return new Error(response.data.message);
     }
 
-    return null;
+    // return null;
   } catch (error) {
     // TODO: fix formatError()
     // return formatError(error);

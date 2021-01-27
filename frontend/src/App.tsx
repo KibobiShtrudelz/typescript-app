@@ -5,8 +5,9 @@ import Header from "./app/components/header";
 import Main from "./app/components/Main";
 import pathnames from "./pathnames";
 
-import "./App.css";
+import "react-redux-toastr/lib/css/react-redux-toastr.min.css";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "./App.css";
 
 const App = () => {
   useEffect(() => {

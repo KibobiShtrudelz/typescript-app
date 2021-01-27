@@ -1,10 +1,12 @@
+import { reducer as toastrReducer } from "react-redux-toastr";
+import { useDispatch } from "react-redux";
 import {
   configureStore,
   ThunkAction,
   Action,
   AsyncThunk,
 } from "@reduxjs/toolkit";
-import { useDispatch } from "react-redux";
+
 import { ApplicationState } from "../types/state";
 import authFormStore from "./authFormStore";
 import userStore from "./userStore";
@@ -13,6 +15,7 @@ export const store = configureStore({
   reducer: {
     authForm: authFormStore.reducer,
     user: userStore.reducer,
+    toastr: toastrReducer,
   },
 });
 
@@ -29,10 +32,12 @@ type ThunkOptions = {
   state: ApplicationState;
 };
 
-type TThunk<TPayload, TArg = void> = AsyncThunk<TPayload, TArg, ThunkOptions>;
+export type TThunk<TPayload, TArg = void> = AsyncThunk<
+  TPayload,
+  TArg,
+  ThunkOptions
+>;
 
 type AppDispatch = typeof store.dispatch;
-
-export type { AppDispatch, TThunk };
 
 export const useAppDispatch = () => useDispatch<AppDispatch>();

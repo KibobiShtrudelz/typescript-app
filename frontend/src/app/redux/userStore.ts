@@ -26,7 +26,7 @@ const initialState: ApplicationState["user"] = {
   loading: false,
 };
 
-const userSignIn: TThunk<User | null, User> = createAsyncThunk(
+const userSignIn: TThunk<User | Error, User> = createAsyncThunk(
   "user/sign-in",
   async (userData: User) => await signin(userData)
 );

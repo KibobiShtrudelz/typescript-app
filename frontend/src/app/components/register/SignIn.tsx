@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { toastr } from "react-redux-toastr";
 import styled from "styled-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
@@ -52,7 +53,9 @@ const SignIn = (props: { hide: () => void }) => {
         })
       );
 
-      props.hide && props.hide();
+      toastr.success("", "You have successfully logged in.");
+
+      props.hide && props.hide(); // TODO: hide after login/reg success
     },
   });
 

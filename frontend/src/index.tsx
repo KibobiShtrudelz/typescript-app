@@ -1,12 +1,15 @@
-import React from "react";
-import ReactDOM from "react-dom";
-import "./index.css";
-import App from "./App";
-import { store } from "./app/redux/store";
-import { Provider } from "react-redux";
-import * as serviceWorker from "./serviceWorker";
 import { ThemeProvider } from "styled-components";
+import ReduxToastr from "react-redux-toastr";
+import { Provider } from "react-redux";
+import ReactDOM from "react-dom";
+import React from "react";
+
+import "./index.css";
+
 import { defaultTheme as theme } from "./app/theme";
+import * as serviceWorker from "./serviceWorker";
+import { store } from "./app/redux/store";
+import App from "./App";
 
 ReactDOM.render(
   <React.StrictMode>
@@ -14,6 +17,17 @@ ReactDOM.render(
       <ThemeProvider theme={theme}>
         <App />
       </ThemeProvider>
+
+      <ReduxToastr
+        timeOut={4000}
+        newestOnTop={false}
+        preventDuplicates
+        position="top-right"
+        transitionIn="fadeIn"
+        transitionOut="fadeOut"
+        progressBar
+        closeOnToastrClick
+      />
     </Provider>
   </React.StrictMode>,
   document.getElementById("root")

@@ -10,6 +10,7 @@ interface ApplicationState {
     loaded: boolean;
     error: string;
   };
+  toastr: any;
 }
 
 export default ApplicationState;
