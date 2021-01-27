@@ -1,6 +1,6 @@
+import React, { useState, useEffect, useCallback } from "react";
 import styled from "styled-components";
 import { useFormik } from "formik";
-import React from "react";
 import * as Yup from "yup";
 
 // import { useAppDispatch } from "../../redux/store";
@@ -32,14 +32,16 @@ const initialValues: FormValues = {
 };
 
 const SignUp = (props: { hide: () => void }) => {
+  const [isSignUp, setIsSignUp] = useState<boolean>(true);
+
   const dispatch = useAppDispatch();
 
   const SignupSchema: any = Yup.object().shape({
-    email: Yup.string().email("Invalid e-mail!").required("Required"),
+    email: Yup.string().email("Invalid e-mail!").required("E-mail is required"),
     password: Yup.string()
       .min(2, "Password is too Short!")
       .max(50, "Password is too Long!")
-      .required("Required"),
+      .required("Password is required"),
   });
 
   // Pass the useFormik() hook initial form values and a submit function that will
@@ -59,9 +61,14 @@ const SignUp = (props: { hide: () => void }) => {
     },
   });
 
+  // eslint-disable-next-lines
+  useEffect(() => formik.resetForm(), [isSignUp]);
+
   return (
     <Wrap className="container-fluid">
-      <form className="p-3" onSubmit={formik.handleSubmit}>
+      <h1>{isSignUp ? "SIGN UP" : "LOG IN"}</h1>
+
+      <StyledForm className="p-3" onSubmit={formik.handleSubmit}>
         <div className="mb-3">
           <label htmlFor="email">
             <FontAwesomeIcon icon={faEnvelope} /> Email Address
@@ -105,15 +112,18 @@ const SignUp = (props: { hide: () => void }) => {
         </div>
 
         <span>
-          Allready have account? <span className="link">Log in</span>
+          {isSignUp ? "Allready have account?" : "Don't have an account?"}{" "}
+          <span className="link" onClick={() => setIsSignUp(!isSignUp)}>
+            {isSignUp ? "Log in" : "Sign up"}
+          </span>
         </span>
 
         <div className="d-flex justify-content-end mt-3">
           <button type="submit" className="btn btn-primary mt-3">
-            Sign Up
+            {isSignUp ? "Sign Up" : "Log In"}
           </button>
         </div>
-      </form>
+      </StyledForm>
     </Wrap>
   );
 };
@@ -129,24 +139,31 @@ export default SignUp;
 // `;
 
 const Wrap = styled.div`
-  /* box-shadow: 0 0 12px 0 #adadad; */
   background-color: #fff;
   border-radius: 6px;
   max-width: 1500px;
   padding: 10px;
 
-  & > form {
-    & > div {
-      & > span {
-        &.error {
-          color: #ff3333;
-        }
+  h1 {
+    text-align: center;
+  }
+`;
 
-        &.link {
-          color: blue;
-          text-decoration: underline;
-        }
+const StyledForm = styled.form`
+  div.mb-3 {
+    span {
+      &.error {
+        color: #ff0033;
       }
+    }
+  }
+
+  span {
+    &.link {
+      text-decoration: underline;
+      font-weight: bold;
+      color: #007fff;
+      cursor: pointer;
     }
   }
 `;
