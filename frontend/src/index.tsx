@@ -19,14 +19,13 @@ ReactDOM.render(
       </ThemeProvider>
 
       <ReduxToastr
-        timeOut={4000}
-        newestOnTop={false}
-        preventDuplicates
-        position="top-right"
-        transitionIn="fadeIn"
         transitionOut="fadeOut"
-        progressBar
+        transitionIn="fadeIn"
+        position="top-right"
+        newestOnTop={false}
         closeOnToastrClick
+        preventDuplicates
+        timeOut={4000}
       />
     </Provider>
   </React.StrictMode>,

@@ -1,12 +1,13 @@
+import { faEnvelope, faUserLock } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React, { useState, useEffect } from "react";
 import { toastr } from "react-redux-toastr";
 import styled from "styled-components";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 
-import { faEnvelope, faUserLock } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useAppDispatch } from "../../redux/store";
+import { useAppDispatch, useAppSelector } from "../../redux/store";
+import ApplicationState from "../../types/state";
 import userStore from "../../redux/userStore";
 
 interface FormValues {
@@ -27,8 +28,14 @@ const initialValues: FormValues = {
   },
 };
 
-const SignIn = (props: { hide: () => void }) => {
+type Props = {
+  hide: () => void;
+};
+
+const SignIn = ({ hide }: Props) => {
   const [isSignUp, setIsSignUp] = useState<boolean>(false);
+
+  const user = useAppSelector(({ user }: ApplicationState) => user);
 
   const dispatch = useAppDispatch();
 
@@ -52,15 +59,32 @@ const SignIn = (props: { hide: () => void }) => {
           authType: isSignUp ? "sign up" : "log in",
         })
       );
-
-      toastr.success("", "You have successfully logged in.");
-
-      props.hide && props.hide(); // TODO: hide after login/reg success
     },
   });
 
+  const showBtnText = (): JSX.Element | string => {
+    if (user.loading)
+      return (
+        <span
+          className="spinner-border spinner-border-sm"
+          role="status"
+          aria-hidden="true"
+        />
+      );
+
+    return isSignUp ? "Sign Up" : "Log In";
+  };
+
   // eslint-disable-next-line react-hooks/exhaustive-deps
   useEffect(() => formik.resetForm(), [isSignUp]);
+
+  // TODO: Fix logic below because button form is not displayed after second click on Header's Sign in button
+  useEffect(() => {
+    if (typeof user.data.id === "number" && !user.loading) {
+      toastr.success("", "You have successfully logged in.");
+      hide && hide();
+    }
+  }, [hide, user.loading, user.data.id]);
 
   return (
     <Wrap className="container-fluid">
@@ -117,8 +141,12 @@ const SignIn = (props: { hide: () => void }) => {
         </span>
 
         <div className="d-flex justify-content-end mt-3">
-          <button type="submit" className="btn btn-primary mt-3">
-            {isSignUp ? "Sign Up" : "Log In"}
+          <button
+            type="submit"
+            className="btn btn-primary mt-3"
+            disabled={user.loading}
+          >
+            {showBtnText()}
           </button>
         </div>
       </StyledForm>
@@ -140,6 +168,10 @@ const Wrap = styled.div`
 `;
 
 const StyledForm = styled.form`
+  button {
+    width: 100px;
+  }
+
   div.mb-3 {
     span {
       &.error {

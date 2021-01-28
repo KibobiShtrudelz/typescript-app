@@ -1,10 +1,10 @@
+import { useSelector, shallowEqual, useDispatch } from "react-redux";
 import { reducer as toastrReducer } from "react-redux-toastr";
-import { useDispatch } from "react-redux";
 import {
   configureStore,
   ThunkAction,
-  Action,
   AsyncThunk,
+  Action,
 } from "@reduxjs/toolkit";
 
 import { ApplicationState } from "../types/state";
@@ -41,3 +41,7 @@ export type TThunk<TPayload, TArg = void> = AsyncThunk<
 type AppDispatch = typeof store.dispatch;
 
 export const useAppDispatch = () => useDispatch<AppDispatch>();
+
+export const useAppSelector = <TReturn>(
+  selector: (state: ApplicationState) => TReturn
+): TReturn => useSelector<ApplicationState, TReturn>(selector, shallowEqual);

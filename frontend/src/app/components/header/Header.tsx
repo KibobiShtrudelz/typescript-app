@@ -1,4 +1,3 @@
-import Button from "react-bootstrap/Button";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
@@ -26,12 +25,15 @@ const Header = (): JSX.Element => {
 
           <RCol className="RIGHT-COL col d-flex justify-content-end align-items-center">
             <ButtonWrap>
-              <Button
-                as="input"
-                type="button"
-                value="Sign in"
-                onClick={() => setShowModal(!showModal)}
-              />
+              <div className="d-flex justify-content-end">
+                <button
+                  type="submit"
+                  className="btn btn-primary"
+                  onClick={() => setShowModal(!showModal)}
+                >
+                  Sign in
+                </button>
+              </div>
             </ButtonWrap>
           </RCol>
         </Row>
