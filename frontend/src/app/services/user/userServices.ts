@@ -19,13 +19,13 @@ export const signin = async ({
     const authData = isSignUp
       ? { email, username, password }
       : { identifier: email, password };
-    const apiUrl = isSignUp ? "/users" : "/auth/local";
+    const apiUrl = isSignUp ? "/auth/local/register" : "/auth/local";
 
     const response = await cmsClient.post(apiUrl, authData);
 
     if (isRequestSuccessful(response.status)) {
       if (response.data.jwt) {
-        cookies.set("jwt", response.data.jwt);
+        cookies.set("jwt", response.data.jwt, { path: "/" });
       }
 
       return response.data;
@@ -37,28 +37,24 @@ export const signin = async ({
   } catch (error) {
     // TODO: fix formatError()
     // return formatError(error);
+    console.log("sign err obj:", error);
     return error.message;
   }
 };
 
-export const fetchLoggedUser = async (): Promise<User | Error> => {
+export const fetchLoggedUser = async (): Promise<User> => {
   try {
     const response = await cmsClient.get("/users/me", {
       headers: { Authorization: `Bearer ${cookies.get("jwt")}` },
     });
-
     if (isRequestSuccessful(response.status)) {
       if (response.data.jwt) {
-        cookies.set("jwt", response.data.jwt);
+        cookies.set("jwt", response.data.jwt, { path: "/" });
       }
 
       return response.data;
-    } else {
-      return new Error(response.data.message);
-    }
+    } else return response.data.message;
   } catch (error) {
-    // TODO: fix formatError()
-    // return formatError(error);
     return error.message;
   }
 };

@@ -19,9 +19,7 @@ type State = {
 };
 
 const initialState: ApplicationState["user"] = {
-  data: {
-    email: "",
-  },
+  data: { email: "" },
   error: "",
   loaded: false,
   loading: false,
@@ -34,12 +32,19 @@ const userSignIn: TThunk<User | Error, User> = createAsyncThunk(
   async (userData: User) => await signin(userData)
 );
 
-const fetchUser: TThunk<User | Error, User> = createAsyncThunk(
+const fetchUser: TThunk<User | { email: string }> = createAsyncThunk(
   "user/fetch-logged-user",
-  async () => cookies.get("jwt") && (await fetchLoggedUser())
+  async () => {
+    if (cookies.get("jwt")?.length > 0) {
+      return await fetchLoggedUser();
+    }
+
+    return { email: "" };
+  }
 );
 
 const reducer = createReducer(initialState, {
+  // User signin
   [userSignIn.pending.type]: state => {
     state.loading = true;
   },
@@ -49,6 +54,21 @@ const reducer = createReducer(initialState, {
     state.loading = false;
   },
   [userSignIn.rejected.type]: (state, action) => {
+    state.loaded = true;
+    state.loading = false;
+    state.error = action.error.message;
+  },
+
+  // User fetch
+  [fetchUser.pending.type]: state => {
+    state.loading = true;
+  },
+  [fetchUser.fulfilled.type]: (state, action: PayloadAction<User>) => {
+    state.data = action.payload;
+    state.loaded = true;
+    state.loading = false;
+  },
+  [fetchUser.rejected.type]: (state, action) => {
     state.loaded = true;
     state.loading = false;
     state.error = action.error.message;
