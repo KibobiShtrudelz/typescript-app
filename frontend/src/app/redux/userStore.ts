@@ -3,7 +3,7 @@ import {
   // createAction,
   createReducer,
   PayloadAction,
-  // SerializedError,
+  SerializedError,
 } from "@reduxjs/toolkit";
 import { signin, fetchLoggedUser } from "../services/user/userServices";
 import { ApplicationState } from "../types/state";
@@ -27,21 +27,23 @@ const initialState: ApplicationState["user"] = {
 
 const cookies = new Cookies();
 
-const userSignIn: TThunk<User | Error, User> = createAsyncThunk(
+const userSignIn: TThunk<
+  User | { errorMessage: string },
+  User
+> = createAsyncThunk(
   "user/sign-in",
   async (userData: User) => await signin(userData)
 );
 
-const fetchUser: TThunk<User | { email: string }> = createAsyncThunk(
-  "user/fetch-logged-user",
-  async () => {
-    if (cookies.get("jwt")?.length > 0) {
-      return await fetchLoggedUser();
-    }
-
-    return { email: "" };
+const fetchUser: TThunk<
+  User | { email: string } | { errorMessage: string }
+> = createAsyncThunk("user/fetch-logged-user", async () => {
+  if (cookies.get("jwt")?.length > 0) {
+    return await fetchLoggedUser();
   }
-);
+
+  return { email: "" };
+});
 
 const reducer = createReducer(initialState, {
   // User signin
@@ -49,14 +51,23 @@ const reducer = createReducer(initialState, {
     state.loading = true;
   },
   [userSignIn.fulfilled.type]: (state, action: PayloadAction<User>) => {
-    state.data = action.payload;
+    if (action.payload.errorMessage) {
+      state.data.email = "";
+      state.error = action.payload.errorMessage;
+    } else {
+      state.data = action.payload;
+    }
+
     state.loaded = true;
     state.loading = false;
   },
-  [userSignIn.rejected.type]: (state, action) => {
+  [userSignIn.rejected.type]: (
+    state,
+    action: PayloadAction<null, string, unknown, SerializedError>
+  ) => {
     state.loaded = true;
     state.loading = false;
-    state.error = action.error.message;
+    state.error = action.error.message || "General error";
   },
 
   // User fetch
@@ -68,10 +79,13 @@ const reducer = createReducer(initialState, {
     state.loaded = true;
     state.loading = false;
   },
-  [fetchUser.rejected.type]: (state, action) => {
+  [fetchUser.rejected.type]: (
+    state,
+    action: PayloadAction<null, string, unknown, SerializedError>
+  ) => {
     state.loaded = true;
     state.loading = false;
-    state.error = action.error.message;
+    state.error = action.error.message || "General error";
   },
 });
 
