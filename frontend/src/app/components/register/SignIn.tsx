@@ -133,6 +133,10 @@ const SignIn = ({ hide }: Props) => {
           )}
         </div>
 
+        <ErrorMessage>
+          <span>{user.error}</span>
+        </ErrorMessage>
+
         <span>
           {isSignUp ? "Allready have account?" : "Don't have an account?"}{" "}
           <span className="link" onClick={() => setIsSignUp(!isSignUp)}>
@@ -187,5 +191,13 @@ const StyledForm = styled.form`
       color: #007fff;
       cursor: pointer;
     }
+  }
+`;
+
+const ErrorMessage = styled.div`
+  margin-bottom: 10px;
+
+  & > span {
+    color: #ff0033;
   }
 `;
