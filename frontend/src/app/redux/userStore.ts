@@ -1,3 +1,4 @@
+import Cookies from "universal-cookie";
 import {
   createAsyncThunk,
   // createAction,
@@ -5,9 +6,10 @@ import {
   PayloadAction,
   SerializedError,
 } from "@reduxjs/toolkit";
+
 import { signin, fetchLoggedUser } from "../services/user/userServices";
+import formatError, { ErrorMessagePayload } from "../../utils/formatError";
 import { ApplicationState } from "../types/state";
-import Cookies from "universal-cookie";
 import { User } from "../types/user";
 import { TThunk } from "./store";
 
@@ -27,22 +29,20 @@ const initialState: ApplicationState["user"] = {
 
 const cookies = new Cookies();
 
-const userSignIn: TThunk<
-  User | { errorMessage: string },
-  User
-> = createAsyncThunk(
+const userSignIn: TThunk<User | ErrorMessagePayload, User> = createAsyncThunk(
   "user/sign-in",
   async (userData: User) => await signin(userData)
 );
 
 const fetchUser: TThunk<
-  User | { email: string } | { errorMessage: string }
+  User | ErrorMessagePayload | { email: string } | undefined
 > = createAsyncThunk("user/fetch-logged-user", async () => {
-  if (cookies.get("jwt")?.length > 0) {
-    return await fetchLoggedUser();
+  try {
+    if (cookies.get("jwt")?.length > 0) return await fetchLoggedUser();
+    return { email: "" };
+  } catch (error) {
+    formatError(error);
   }
-
-  return { email: "" };
 });
 
 const reducer = createReducer(initialState, {
@@ -51,11 +51,12 @@ const reducer = createReducer(initialState, {
     state.loading = true;
   },
   [userSignIn.fulfilled.type]: (state, action: PayloadAction<User>) => {
-    if (action.payload.errorMessage) {
+    if (action.payload.error) {
       state.data.email = "";
-      state.error = action.payload.errorMessage;
+      state.error = action.payload.error;
     } else {
       state.data = action.payload;
+      state.error = "";
     }
 
     state.loaded = true;

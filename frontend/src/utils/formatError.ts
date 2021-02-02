@@ -1,11 +1,21 @@
-const formatError = (err: {
+type ErrorMessage = {
   response: {
     data: {
-      message: { messages: { id: string; message: string; field: string }[] }[];
+      message: {
+        messages: {
+          message: string;
+          field: string;
+          id: string;
+        }[];
+      }[];
     };
   };
-}): { errorMessage: string } => ({
-  errorMessage: err.response?.data?.message[0]?.messages[0]?.message,
+};
+
+export type ErrorMessagePayload = { error: string };
+
+const formatError = (err: ErrorMessage): ErrorMessagePayload => ({
+  error: err.response?.data?.message[0]?.messages[0]?.message,
 });
 
 export default formatError;

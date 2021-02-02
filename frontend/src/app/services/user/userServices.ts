@@ -1,8 +1,8 @@
-import createCmsClient from "../common/cmsClient";
-import { User } from "../../types/user";
 import Cookies from "universal-cookie";
 
-import formatError from "../../../utils/formatError";
+import formatError, { ErrorMessagePayload } from "../../../utils/formatError";
+import createCmsClient from "../common/cmsClient";
+import { User } from "../../types/user";
 
 const cmsClient = createCmsClient();
 const cookies = new Cookies();
@@ -15,7 +15,7 @@ export const signin = async ({
   username,
   password,
   authType,
-}: User): Promise<User | { errorMessage: string }> => {
+}: User): Promise<User | ErrorMessagePayload> => {
   try {
     const isSignUp = authType === "sign up";
     const authData = isSignUp
@@ -33,17 +33,15 @@ export const signin = async ({
 };
 
 export const fetchLoggedUser = async (): Promise<
-  User | { errorMessage: string }
+  User | ErrorMessagePayload
 > => {
   try {
     const response = await cmsClient.get("/users/me", {
       headers: { Authorization: `Bearer ${cookies.get("jwt")}` },
     });
-    if (isRequestSuccessful(response.status)) {
-      if (response.data.jwt) {
-        cookies.set("jwt", response.data.jwt, { path: "/" });
-      }
 
+    if (isRequestSuccessful(response.status)) {
+      response.data.jwt && cookies.set("jwt", response.data.jwt, { path: "/" });
       return response.data;
     } else throw new Error(response.data.message);
   } catch (error) {

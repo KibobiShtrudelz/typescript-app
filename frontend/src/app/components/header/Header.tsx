@@ -3,13 +3,20 @@ import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 import SignIn from "../../components/register";
+import BsModal from "../common/Modal";
+
+import authFormStore from "../../redux/authFormStore";
+import { useAppDispatch, useAppSelector } from "../../redux/store";
+import pathnames from "../../../pathnames";
 
 import logo from "../../../images/logo-react-js.png";
-import pathnames from "../../../pathnames";
-import BsModal from "../common/Modal";
 
 const Header = (): JSX.Element => {
   const [showModal, setShowModal] = useState<boolean>(false);
+
+  const isAuthFormVisible = useAppSelector(state => state.authForm.isVisible);
+
+  const dispatch = useAppDispatch();
 
   return (
     <>
@@ -29,7 +36,9 @@ const Header = (): JSX.Element => {
                 <button
                   type="submit"
                   className="btn btn-primary"
-                  onClick={() => setShowModal(!showModal)}
+                  onClick={() => {
+                    dispatch(authFormStore.actions.toggleAuthForm());
+                  }}
                 >
                   Sign in
                 </button>
@@ -39,9 +48,9 @@ const Header = (): JSX.Element => {
         </Row>
       </StyledHeader>
 
-      {showModal && (
+      {isAuthFormVisible && (
         <BsModal
-          show={showModal}
+          show={isAuthFormVisible}
           onHide={() => setShowModal(false)}
           body={<SignIn hide={() => setShowModal(false)} />}
         />

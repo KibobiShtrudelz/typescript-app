@@ -4,7 +4,7 @@ export type User = {
   email: string;
   username?: User["email"];
   password?: string;
-  errorMessage?: string;
+  error?: string;
   authType?: string;
 };
 
@@ -31,5 +31,4 @@ export type LoggedUser = {
   message?: string;
   consumer?: string;
   password?: string;
-  errorMessage?: string;
 };
