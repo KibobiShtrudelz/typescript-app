@@ -1,19 +1,18 @@
-import React, { useState } from "react";
+import { ErrorBoundary } from "react-error-boundary";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 
+import FallbackComponent from "../fallbackComponent";
 import SignIn from "../../components/register";
 import BsModal from "../common/Modal";
 
-import authFormStore from "../../redux/authFormStore";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
+import authFormStore from "../../redux/authFormStore";
 import pathnames from "../../../pathnames";
 
 import logo from "../../../images/logo-react-js.png";
 
-const Header = (): JSX.Element => {
-  const [showModal, setShowModal] = useState<boolean>(false);
-
+export const Header = (): JSX.Element => {
   const isAuthFormVisible = useAppSelector(state => state.authForm.isVisible);
 
   const dispatch = useAppDispatch();
@@ -51,15 +50,13 @@ const Header = (): JSX.Element => {
       {isAuthFormVisible && (
         <BsModal
           show={isAuthFormVisible}
-          onHide={() => setShowModal(false)}
-          body={<SignIn hide={() => setShowModal(false)} />}
+          onHide={() => dispatch(authFormStore.actions.toggleAuthForm())}
+          body={<ErrorBoundary FallbackComponent={FallbackComponent}><SignIn hide={() => dispatch(authFormStore.actions.toggleAuthForm())} /></ErrorBoundary>}
         />
       )}
     </>
   );
 };
-
-export default Header;
 
 const StyledHeader = styled.header`
   position: relative;

@@ -32,7 +32,7 @@ type Props = {
   hide: () => void;
 };
 
-const SignIn = ({ hide }: Props) => {
+export const SignIn = ({ hide }: Props) => {
   const [isSignUp, setIsSignUp] = useState<boolean>(false);
 
   const user = useAppSelector(({ user }: ApplicationState) => user);
@@ -80,11 +80,13 @@ const SignIn = ({ hide }: Props) => {
 
   // TODO: Fix logic below because button form is not displayed after second click on Header's Sign in button
   useEffect(() => {
-    if (typeof user.data.id === "number" && !user.loading) {
-      toastr.success("", "You have successfully logged in.");
-      hide && hide();
+    if (user.data && user.data.id) {
+      if (typeof user.data.id === "number" && !user.loading) {
+        toastr.success("", "You have successfully logged in.");
+        hide && hide();
+      }
     }
-  }, [hide, user.loading, user.data.id]);
+  }, [hide, user.loading, user.data]);
 
   return (
     <Wrap className="container-fluid">
@@ -157,8 +159,6 @@ const SignIn = ({ hide }: Props) => {
     </Wrap>
   );
 };
-
-export default SignIn;
 
 const Wrap = styled.div`
   background-color: #fff;

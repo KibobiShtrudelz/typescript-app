@@ -1,12 +1,14 @@
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { ErrorBoundary } from "react-error-boundary";
 import { useEffect } from "react";
 
 import "react-redux-toastr/lib/css/react-redux-toastr.min.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
+import FallbackComponent from "./app/components/fallbackComponent";
 import Header from "./app/components/header";
-import Main from "./app/components/Main";
+import Main from "./app/components/main";
 import pathnames from "./pathnames";
 
 import { useAppDispatch } from "./app/redux/store";
@@ -21,7 +23,7 @@ const App = () => {
 
   return (
     <Router>
-      <Header />
+      <ErrorBoundary FallbackComponent={FallbackComponent}><Header /></ErrorBoundary>
 
       <Main>
         <Switch>

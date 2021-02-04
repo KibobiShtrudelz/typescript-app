@@ -1,10 +1,9 @@
 import Cookies from "universal-cookie";
 import {
   createAsyncThunk,
-  // createAction,
+  SerializedError,
   createReducer,
   PayloadAction,
-  SerializedError,
 } from "@reduxjs/toolkit";
 
 import { signin, fetchLoggedUser } from "../services/user/userServices";
