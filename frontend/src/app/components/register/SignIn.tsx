@@ -7,6 +7,7 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 
 import { useAppDispatch, useAppSelector } from "../../redux/store";
+import authFormStore from "../../redux/authFormStore";
 import ApplicationState from "../../types/state";
 import userStore from "../../redux/userStore";
 
@@ -87,6 +88,10 @@ export const SignIn = ({ hide }: Props) => {
       }
     }
   }, [hide, user.loading, user.data]);
+
+  useEffect(() => {
+    user.data.jwt && dispatch(authFormStore.actions.toggleAuthForm());
+  }, [dispatch, user.data.jwt]);
 
   return (
     <Wrap className="container-fluid">

@@ -33,17 +33,23 @@ export const signin = async ({
 };
 
 export const fetchLoggedUser = async (): Promise<
-  User | ErrorMessagePayload
+  User | ErrorMessagePayload | undefined
 > => {
   try {
-    const response = await cmsClient.get("/users/me", {
-      headers: { Authorization: `Bearer ${cookies.get("jwt")}` },
-    });
+    const hasToken = cookies.get("jwt");
+    if (hasToken) {
+      const response = await cmsClient.get("/users/me", {
+        headers: { Authorization: `Bearer ${cookies.get("jwt")}` },
+      });
 
-    if (isRequestSuccessful(response.status)) {
-      response.data.jwt && cookies.set("jwt", response.data.jwt, { path: "/" });
-      return response.data;
-    } else throw new Error(response.data.message);
+      if (isRequestSuccessful(response.status)) {
+        response.data.jwt &&
+          cookies.set("jwt", response.data.jwt, { path: "/" });
+        return response.data;
+      } else throw new Error(response.data.message);
+    }
+
+    return;
   } catch (error) {
     return formatError(error);
   }

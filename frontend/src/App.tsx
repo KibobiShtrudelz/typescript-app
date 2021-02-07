@@ -8,7 +8,7 @@ import "./App.css";
 
 import FallbackComponent from "./app/components/fallbackComponent";
 import Header from "./app/components/header";
-import Main from "./app/components/main";
+import Main from "./app/components/Main";
 import pathnames from "./pathnames";
 
 import { useAppDispatch } from "./app/redux/store";
@@ -23,7 +23,9 @@ const App = () => {
 
   return (
     <Router>
-      <ErrorBoundary FallbackComponent={FallbackComponent}><Header /></ErrorBoundary>
+      <ErrorBoundary FallbackComponent={FallbackComponent}>
+        <Header />
+      </ErrorBoundary>
 
       <Main>
         <Switch>

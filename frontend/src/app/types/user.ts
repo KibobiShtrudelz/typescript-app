@@ -1,22 +1,13 @@
 export type User = {
+  jwt?: string;
   id?: number;
-  jwt?: string;
-  email: string;
-  username?: User["email"];
-  password?: string;
-  error?: string;
-  authType?: string;
-};
-
-export type LoggedUser = {
-  jwt?: string;
-  id: number;
   username?: string;
-  email: string;
+  email?: string;
   confirmed?: boolean;
-  blocked?: boolean;
+  blocked?: boolean | null;
+  provider?: string;
   role?: {
-    id: string;
+    id: number;
     name: string;
     description: string;
     type: string;
@@ -25,10 +16,35 @@ export type LoggedUser = {
   lastLogin?: string;
   created_at?: string;
   updated_at?: string;
-  error?: Error | string | null;
+  error?: string;
 
   search?: string;
   message?: string;
   consumer?: string;
   password?: string;
+
+  authType?: string;
+  user?: {
+    id: number;
+    username: string;
+    email: string;
+    confirmed: boolean;
+    blocked: boolean | null;
+    provider: string;
+    role: {
+      id: number;
+      name: string;
+      description: string;
+      type: string;
+    };
+    registrationDate: string;
+    lastLogin: string;
+    created_at: string;
+    updated_at: string;
+    error: string;
+
+    search: string;
+    message: string;
+    consumer: string;
+  };
 };

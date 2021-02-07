@@ -13,7 +13,10 @@ import pathnames from "../../../pathnames";
 import logo from "../../../images/logo-react-js.png";
 
 export const Header = (): JSX.Element => {
-  const isAuthFormVisible = useAppSelector(state => state.authForm.isVisible);
+  const { user, isAuthFormVisible } = useAppSelector((state) => ({
+    user: state.user,
+    isAuthFormVisible: state.authForm.isVisible,
+  }));
 
   const dispatch = useAppDispatch();
 
@@ -32,15 +35,17 @@ export const Header = (): JSX.Element => {
           <RCol className="RIGHT-COL col d-flex justify-content-end align-items-center">
             <ButtonWrap>
               <div className="d-flex justify-content-end">
-                <button
-                  type="submit"
-                  className="btn btn-primary"
-                  onClick={() => {
-                    dispatch(authFormStore.actions.toggleAuthForm());
-                  }}
-                >
-                  Sign in
-                </button>
+                {
+                  <button
+                    type="submit"
+                    className="btn btn-primary"
+                    onClick={() => {
+                      dispatch(authFormStore.actions.toggleAuthForm());
+                    }}
+                  >
+                    Sign in
+                  </button>
+                }
               </div>
             </ButtonWrap>
           </RCol>
@@ -51,7 +56,13 @@ export const Header = (): JSX.Element => {
         <BsModal
           show={isAuthFormVisible}
           onHide={() => dispatch(authFormStore.actions.toggleAuthForm())}
-          body={<ErrorBoundary FallbackComponent={FallbackComponent}><SignIn hide={() => dispatch(authFormStore.actions.toggleAuthForm())} /></ErrorBoundary>}
+          body={
+            <ErrorBoundary FallbackComponent={FallbackComponent}>
+              <SignIn
+                hide={() => dispatch(authFormStore.actions.toggleAuthForm())}
+              />
+            </ErrorBoundary>
+          }
         />
       )}
     </>

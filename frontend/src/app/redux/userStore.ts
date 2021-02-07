@@ -11,6 +11,7 @@ import formatError, { ErrorMessagePayload } from "../../utils/formatError";
 import { ApplicationState } from "../types/state";
 import { User } from "../types/user";
 import { TThunk } from "./store";
+import authFormStore from "./authFormStore";
 
 type State = {
   data: User;
@@ -20,10 +21,10 @@ type State = {
 };
 
 const initialState: ApplicationState["user"] = {
-  data: { email: "" },
-  error: "",
+  data: {},
   loaded: false,
   loading: false,
+  error: "",
 };
 
 const cookies = new Cookies();
@@ -38,7 +39,7 @@ const fetchUser: TThunk<
 > = createAsyncThunk("user/fetch-logged-user", async () => {
   try {
     if (cookies.get("jwt")?.length > 0) return await fetchLoggedUser();
-    return { email: "" };
+    return {};
   } catch (error) {
     formatError(error);
   }
@@ -46,15 +47,31 @@ const fetchUser: TThunk<
 
 const reducer = createReducer(initialState, {
   // User signin
-  [userSignIn.pending.type]: state => {
+  [userSignIn.pending.type]: (state) => {
     state.loading = true;
   },
   [userSignIn.fulfilled.type]: (state, action: PayloadAction<User>) => {
     if (action.payload.error) {
-      state.data.email = "";
       state.error = action.payload.error;
     } else {
-      state.data = action.payload;
+      // state.data = action.payload;
+      state.data = {
+        jwt: action.payload.jwt,
+        blocked: action.payload.user?.blocked,
+        confirmed: action.payload.user?.confirmed,
+        created_at: action.payload.user?.created_at,
+        email: action.payload.user?.email,
+        id: action.payload.user?.id,
+        provider: action.payload.user?.provider,
+        role: {
+          description: action.payload.user?.role.description!,
+          id: action.payload.user?.role.id!,
+          name: action.payload.user?.role.name!,
+          type: action.payload.user?.role.type!,
+        },
+        updated_at: action.payload.user?.updated_at,
+        username: action.payload.user?.username,
+      };
       state.error = "";
     }
 
@@ -71,7 +88,7 @@ const reducer = createReducer(initialState, {
   },
 
   // User fetch
-  [fetchUser.pending.type]: state => {
+  [fetchUser.pending.type]: (state) => {
     state.loading = true;
   },
   [fetchUser.fulfilled.type]: (state, action: PayloadAction<User>) => {
