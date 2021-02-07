@@ -1,5 +1,6 @@
 import { ErrorBoundary } from "react-error-boundary";
 import { Link } from "react-router-dom";
+import Cookies from "universal-cookie";
 import styled from "styled-components";
 
 import FallbackComponent from "../fallbackComponent";
@@ -8,6 +9,7 @@ import BsModal from "../common/Modal";
 
 import { useAppDispatch, useAppSelector } from "../../redux/store";
 import authFormStore from "../../redux/authFormStore";
+import userStore from "../../redux/userStore";
 import pathnames from "../../../pathnames";
 
 import logo from "../../../images/logo-react-js.png";
@@ -19,6 +21,8 @@ export const Header = (): JSX.Element => {
   }));
 
   const dispatch = useAppDispatch();
+
+  const cookies = new Cookies();
 
   return (
     <>
@@ -35,17 +39,30 @@ export const Header = (): JSX.Element => {
           <RCol className="RIGHT-COL col d-flex justify-content-end align-items-center">
             <ButtonWrap>
               <div className="d-flex justify-content-end">
-                {
+                {user.data.id ? (
                   <button
-                    type="submit"
+                    className="log-out-btn"
+                    type="button"
+                    onClick={() => {
+                      // TODO: Research why it doesn't work'
+                      // dispatch(userStore.actions.logout());
+                      cookies.remove("jwt");
+                      window.location.reload();
+                    }}
+                  >
+                    Log out
+                  </button>
+                ) : (
+                  <button
                     className="btn btn-primary"
+                    type="button"
                     onClick={() => {
                       dispatch(authFormStore.actions.toggleAuthForm());
                     }}
                   >
                     Sign in
                   </button>
-                }
+                )}
               </div>
             </ButtonWrap>
           </RCol>
@@ -84,6 +101,16 @@ const StyledImg = styled.img`
 
 const ButtonWrap = styled.div`
   margin-right: 20px;
+
+  & > div {
+    & > button.log-out-btn {
+      color: ${({ theme }) => theme.colors.blue};
+      background-color: transparent;
+      text-decoration: underline;
+      outline: none;
+      border: none;
+    }
+  }
 `;
 
 const Row = styled.div`

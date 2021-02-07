@@ -4,6 +4,7 @@ import {
   SerializedError,
   createReducer,
   PayloadAction,
+  createAction,
 } from "@reduxjs/toolkit";
 
 import { signin, fetchLoggedUser } from "../services/user/userServices";
@@ -44,6 +45,8 @@ const fetchUser: TThunk<
     formatError(error);
   }
 });
+
+const logout = () => createAction("user/log-out");
 
 const reducer = createReducer(initialState, {
   // User signin
@@ -104,11 +107,20 @@ const reducer = createReducer(initialState, {
     state.loading = false;
     state.error = action.error.message || "General error";
   },
+
+  // Log out
+  [logout.toString()]: (state) => {
+    console.log("STOOORE");
+    cookies.remove("jwt");
+    state.data = {};
+    window.location.reload();
+  },
 });
 
 const actions = {
   userSignIn,
   fetchUser,
+  logout,
 };
 
 const userStore = {
