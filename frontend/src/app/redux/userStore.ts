@@ -12,7 +12,6 @@ import formatError, { ErrorMessagePayload } from "../../utils/formatError";
 import { ApplicationState } from "../types/state";
 import { User } from "../types/user";
 import { TThunk } from "./store";
-import authFormStore from "./authFormStore";
 
 type State = {
   data: User;
