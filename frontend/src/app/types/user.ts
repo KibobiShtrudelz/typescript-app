@@ -48,3 +48,5 @@ export type User = {
     consumer: string;
   };
 };
+
+export type UserNotLogged = { data: {} };

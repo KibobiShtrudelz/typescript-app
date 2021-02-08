@@ -9,8 +9,8 @@ import {
 
 import { signin, fetchLoggedUser } from "../services/user/userServices";
 import formatError, { ErrorMessagePayload } from "../../utils/formatError";
+import { User, UserNotLogged } from "../types/user";
 import { ApplicationState } from "../types/state";
-import { User } from "../types/user";
 import { TThunk } from "./store";
 
 type State = {
@@ -35,11 +35,11 @@ const userSignIn: TThunk<User | ErrorMessagePayload, User> = createAsyncThunk(
 );
 
 const fetchUser: TThunk<
-  User | ErrorMessagePayload | { email: string } | undefined
+  User | ErrorMessagePayload | UserNotLogged | undefined
 > = createAsyncThunk("user/fetch-logged-user", async () => {
   try {
     if (cookies.get("jwt")?.length > 0) return await fetchLoggedUser();
-    return {};
+    return { data: {} };
   } catch (error) {
     formatError(error);
   }
@@ -94,7 +94,9 @@ const reducer = createReducer(initialState, {
     state.loading = true;
   },
   [fetchUser.fulfilled.type]: (state, action: PayloadAction<User>) => {
-    state.data = action.payload;
+    if (action.payload) state.data = action.payload;
+    else state.data = {};
+
     state.loaded = true;
     state.loading = false;
   },

@@ -39,7 +39,7 @@ export const Header = (): JSX.Element => {
           <RCol className="RIGHT-COL col d-flex justify-content-end align-items-center">
             <ButtonWrap>
               <div className="d-flex justify-content-end">
-                {user.data.id ? (
+                {user?.data?.id ? (
                   <button
                     className="log-out-btn"
                     type="button"
