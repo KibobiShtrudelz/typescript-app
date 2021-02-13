@@ -7,6 +7,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
 import FallbackComponent from "./app/components/fallbackComponent";
+import FiltersNav from "./app/components/FiltersNav";
 import Header from "./app/components/header";
 import Main from "./app/components/Main";
 import pathnames from "./pathnames";
@@ -26,6 +27,8 @@ const App = () => {
       <ErrorBoundary FallbackComponent={FallbackComponent}>
         <Header />
       </ErrorBoundary>
+
+      <FiltersNav />
 
       <Main>
         <Switch>
