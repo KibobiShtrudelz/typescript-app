@@ -4,12 +4,16 @@ import { Provider } from "react-redux";
 import ReactDOM from "react-dom";
 import React from "react";
 
+import "react-redux-toastr/lib/css/react-redux-toastr.min.css";
+import "bootstrap/dist/css/bootstrap.min.css";
+import "react-input-range/lib/css/index.css";
 import "./index.css";
+
+import App from "./App";
 
 import { defaultTheme as theme } from "./app/theme";
 import * as serviceWorker from "./serviceWorker";
 import { store } from "./app/redux/store";
-import App from "./App";
 
 ReactDOM.render(
   <React.StrictMode>

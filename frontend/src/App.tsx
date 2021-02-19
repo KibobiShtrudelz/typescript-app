@@ -1,16 +1,16 @@
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Switch } from "react-router-dom";
 import { ErrorBoundary } from "react-error-boundary";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 
-import "react-redux-toastr/lib/css/react-redux-toastr.min.css";
-import "bootstrap/dist/css/bootstrap.min.css";
 import "./App.css";
 
 import FallbackComponent from "./app/components/fallbackComponent";
 import FiltersNav from "./app/components/FiltersNav";
+import PublicRoute from "./routes/PublicRoute";
 import Header from "./app/components/header";
 import Main from "./app/components/Main";
-import pathnames from "./pathnames";
+import Root from "./app/pages/root";
+import routes from "./routes";
 
 import { useAppDispatch } from "./app/redux/store";
 import userStore from "./app/redux/userStore";
@@ -32,7 +32,9 @@ const App = () => {
 
       <Main>
         <Switch>
-          <Route exact path={pathnames.root}></Route>
+          <PublicRoute exact path={routes.public.root}>
+            <Root />
+          </PublicRoute>
         </Switch>
       </Main>
     </Router>

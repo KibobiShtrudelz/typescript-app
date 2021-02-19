@@ -10,7 +10,7 @@ import BsModal from "../common/Modal";
 import { useAppDispatch, useAppSelector } from "../../redux/store";
 import authFormStore from "../../redux/authFormStore";
 // import userStore from "../../redux/userStore";
-import pathnames from "../../../pathnames";
+import routes from "../../../routes";
 
 import logo from "../../../images/logo-react-js.png";
 
@@ -30,7 +30,7 @@ export const Header = (): JSX.Element => {
         <Row className="row">
           <LCol className="LEFT-COL col d-flex justify-content-start align-items-center">
             <ImgWrap>
-              <Link to={pathnames.root}>
+              <Link to={routes.public.root}>
                 <StyledImg src={logo} alt="logo" />
               </Link>
             </ImgWrap>

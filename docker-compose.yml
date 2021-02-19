@@ -1,9 +1,9 @@
 version: "3"
 
 services:
-  strapiexample:
+  strapi:
     image: strapi/strapi
-    container_name: strapiexample
+    container_name: strapi
     restart: unless-stopped
     env_file: .env
     environment:
@@ -22,9 +22,9 @@ services:
     ports:
       - "1337:1337"
 
-  mongoexample:
+  mongoDB:
     image: mongo
-    container_name: mongoexample
+    container_name: mongoDB
     restart: unless-stopped
     env_file: .env
     environment:
@@ -37,8 +37,8 @@ services:
     ports:
       - "27017:27017"
 
-  typescript-app:
-    container_name: typescript-app
+  ts-app:
+    container_name: ts-app
     build:
       context: ./frontend
       dockerfile: Dockerfile
@@ -53,7 +53,7 @@ services:
       - VIRTUAL_PORT=3000
     stdin_open: true
     depends_on:
-      - strapiexample
+      - strapi
 
 networks:
   strapi-app-network:
